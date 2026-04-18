@@ -1,0 +1,4 @@
+openai==2.26.0
+python-dotenv==1.2.2
+hyperscan==0.8.1
+dill==0.4.0

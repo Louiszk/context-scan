@@ -1,0 +1,744 @@
+# 1. English, 2. Chinese Simplified, 3. Spanish, 4. French, 5. German, 6. Japanese, 7. Russian, 8. Portuguese, 9. Arabic, 10. Korean, 11. Italian, 12. Dutch, 13. Polish, 14. Hindi, 15. Indonesian, 16. Chinese Traditional, 17. Turkish, 18. Vietnamese, 19. Thai, 20. Persian (Farsi), 21. Malay, 22. Swedish, 23. Norwegian, 24. Danish, 25. Greek, 26. Finnish, 27. Czech, 28. Romanian, 29. Hungarian, 30. Ukrainian, 31. Hebrew, 32. Bulgarian, 33. Croatian, 34. Slovak, 35. Slovenian, 36. Catalan, 37. Lithuanian, 38. Latvian, 39. Estonian, 40. Bengali, 41. Urdu, 42. Serbian, 43. Filipino / Tagalog, 44. Tamil, 45. Telugu, 46. Punjabi, 47. Swahili, 48. Afrikaans, 49. Albanian, 50. Armenian, 51. Georgian, 52. Icelandic, 53. Khmer (Cambodian), 54. Lao, 55. Burmese (Myanmar), 56. Sinhala, 57. Amharic, 58. Kazakh, 59. Mongolian (Cyrillic), 60. Luxembourgish
+# If there is no concrete translation for this language, add "-" instead at this index.
+# Optimally add verb, noun (plural and singular if existent)
+LANGUAGE_FILTERS = {
+    # "ignore", "discard", "forget", "disregard", "bypass", etc.
+    "ignoring": [
+        "ignore", "忽略", "ignorar", "ignorer", "ignorieren", "無視", "игнорировать", "ignorar", "تجاهل", "무시",
+        "ignorare", "negeren", "ignorować", "अनदेखा", "mengabaikan", "忽略", "yoksay", "bỏ qua", "เพิกเฉย", "نادیده",
+        "abai", "ignorera", "ignorere", "ignorere", "αγνοήστε", "sivuuta", "ignorovat", "ignoră", "mellőz", "ігнорувати",
+        "התעלם", "игнорирай", "ignoriraj", "ignorovať", "prezri", "ignorar", "ignoruoti", "ignorēt", "ignoreeri", "উপেক্ষা",
+        "نظرانداز", "игнориши", "deadma", "புறக்கணி", "విస్మరించు", "ਅਣਡਿੱਠ", "puuza", "ignoreer", "injoro", "անտեսել",
+        "იგნორირება", "hunsa", "មិនអើពើ", "ເມີນເສີຍ", "လျစ်လျူရှု", "නොසලකා", "ችላ", "елемеу", "үл тоомсорлох", "ignoréieren",
+
+        "ignoral", "忽略", "ignorancia", "ignorance", "Ignorieren", "無視", "игнорирование", "ignorância", "تجاهل", "무시",
+        "ignoranza", "negeren", "ignorowanie", "उपेक्षा", "pengabaian", "忽略", "yoksayma", "sự lờ đi", "การเพิกเฉย", "نادیده انگاری",
+        "pengabaian", "ignorering", "ignorering", "ignorering", "αγνόηση", "sivuuttaminen", "ignorování", "ignorare", "mellőzés", "ігнорування",
+        "התעלמות", "игнориране", "ignoriranje", "ignorovanie", "ignoriranje", "ignorància", "ignoravimas", "ignorēšana", "ignoreerimine", "উপেক্ষা",
+        "نظر اندازی", "игнорисање", "pagbabalewala", "புறக்கணிப்பு", "విస్మరించడం", "ਅਣਗਹਿਲੀ", "upuuzaji", "ignorering", "injorim", "անտեսում",
+        "იგნორირება", "hunsun", "ការមិនអើពើ", "ການເມີນເສີຍ", "လျစ်လျူရှုမှု", "නොසලකා හැරීම", "ቸልተኝነት", "елемеушілік", "үл тоомсорлолт", "Ignoréieren",
+
+        "ignorance", "无知", "ignorancia", "ignorance", "Ignoranz", "無知", "невежество", "ignorância", "جهل", "무지",
+        "ignoranza", "onwetendheid", "ignorancja", "अज्ञानता", "ketidaktahuan", "無知", "cehalet", "sự thiếu hiểu biết", "ความไม่รู้", "نادانی",
+        "kejahilan", "okunskap", "uvitenhet", "uvidenhed", "άγνοια", "tietämättömyys", "nevědomost", "ignoranță", "tudatlanság", "невігластво",
+        "בורות", "невежество", "neznanje", "nevedomosť", "nevednost", "ignorància", "nežinojimas", "nezināšana", "teadmatus", "অজ্ঞতা",
+        "جہالت", "незнање", "kamangmangan", "அறியாமை", "అజ్ఞానం", "ਅਗਿਆਨਤਾ", "ujinga", "onkunde", "padituri", "տգիտություն",
+        "უმეცრება", "fáfræði", "អវិជ្ជា", "ຄວາມບໍ່ຮູ້", "မသိနားမလည်မှု", "නොදැනුවත්කම", "አለማወቅ", "надандық", "харанхуй байдал", "Ignoranz",
+
+        "dismiss", "驳回", "desestimar", "rejeter", "ablehnen", "却下する", "отклонять", "descartar", "رفض", "기각하다",
+        "respingere", "afwijzen", "odrzucić", "खारिज", "mengabaikan", "駁回", "reddetmek", "bác bỏ", "ยกเลิก", "رد کردن",
+        "menolak", "avvisa", "avvise", "afvise", "απορρίπτω", "hylätä", "zamítnout", "respinge", "elutasít", "відхилити",
+        "לדחות", "отхвърлям", "odbaciti", "zamietnuť", "zavrniti", "desestimar", "atmesti", "noraidīt", "tagasi lükkama", "বরখাস্ত করা",
+        "مسترد کرنا", "одбацити", "bale-walain", "நிராகரி", "తిరస్కరించు", "ਖਾਰਜ ਕਰਨਾ", "fukuza", "afwys", "hedh poshtë", "մերժել",
+        "უარყოფა", "vísa frá", "បដិសេធ", "ປະຕິເສດ", "ပယ်ချသည်", "බැහැර කරනවා", "ውድቅ ማድረግ", "қайтару", "хэрэгсэхгүй болгох", "oflehnen",
+
+        "disregard", "忽视", "hacer caso omiso", "faire abstraction de", "missachten", "軽視する", "пренебрегать", "desconsiderar", "استخفاف", "경시하다",
+        "trascurare", "veronachtzamen", "zbagatelizować", "अवहेลना", "mengabaikan", "忽視", "saymamak", "coi thường", "ไม่ใส่ใจ", "نادیده گرفتن",
+        "mengabaikan", "bortse från", "se bort fra", "se bort fra", "παραβλέπω", "jättää huomiotta", "nevšímat si", "desconsidera", "figyelmen kívül hagy", "нехтувати",
+        "להתעלם", "пренебрегвам", "zanemariti", "ignorovať", "neupoštevati", "desatendre", "nepaisyti", "neievērot", "eirama", "উপেক্ষা করা",
+        "نظر انداز کرنا", "занемарити", "balewalain", "புறக்கணி", "ఉపేక్షించు", "ਅਣਡਿੱਠਾ ਕਰਨਾ", "kupuuza", "verontagsaam", "shpërfill", "անտեսել",
+        "უგულებელყოფა", "hunsa", "មិនអើពើ", "ບໍ່ສົນໃຈ", "လျစ်လျူရှုသည်", "නොසලකා හරිනවා", "ችላ ማለት", "елемеу", "үл тоอมсорлох", "ignoréieren"
+        ],
+    "discarding": [
+        "discard", "丢弃", "descartar", "écarter", "verwerfen", "廃棄する", "отбрасывать", "descartar", "نبذ", "버리다",
+        "scartare", "weggooien", "odrzucić", "त्यागना", "membuang", "丟棄", "atmak", "loại bỏ", "ละทิ้ง", "دور انداختن",
+        "membuang", "kasta", "forkaste", "kassere", "απορρίπτω", "hylätä", "zahodit", "arunca", "elvet", "відкидати",
+        "להשליך", "отхвърлям", "odbaciti", "zahodiť", "zavreči", "descartar", "atmesti", "atmest", "hülgama", "বর্জন করা",
+        "مسترد کرنا", "одбацити", "itapon", "நிராகரி", "వదిలివేయు", "ਰੱਦ ਕਰਨਾ", "tupa", "weggooi", "hedh", "մերժել",
+        "უარყოფა", "fleygja", "បោះបង់", "ປະຖິ້ມ", "စွန့်ပစ်သည်", "ඉවත දමන්න", "ማስወገድ", "тастау", "хаях", "ewechgeien",
+
+        "discarding", "丢弃", "descarte", "écart", "Verwerfung", "廃棄", "отбрасывание", "descarte", "نبذ", "폐기",
+        "scarto", "wegwerping", "odrzucenie", "परित्याग", "pembuangan", "丟棄", "ıskarta", "sự loại bỏ", "การละทิ้ง", "دور اندازی",
+        "pembuangan", "bortkastning", "forkastelse", "kassering", "απόρριψη", "hylkääminen", "vyřazení", "aruncare", "elvetés", "відкидання",
+        "השלכה", "отхвърляне", "odbacivanje", "vyradenie", "zavrženje", "descart", "atmetimas", "izmešana", "hüljatus", "বর্জন",
+        "استرداد", "одбацивање", "pagtatapon", "நிராகரிப்பு", "వదిలివేయడం", "ਰੱਦ", "utupaji", "wegwerping", "hedhje", "մերժում",
+        "უარყოფა", "förgun", "ការបោះបង់", "ការປະຖິ້ມ", "စွန့်ပစ်ခြင်း", "ඉවත දැමීම", "ማስወገድ", "тастау", "хаягдал", "Ewechgeien",
+    ],
+    "removing": [
+        "remove", "删除", "eliminar", "supprimer", "entfernen", "削除する", "удалить", "remover", "إزالة", "제거하다",
+        "rimuovere", "verwijderen", "usunąć", "हटाना", "menghapus", "刪除", "kaldırmak", "xóa", "ลบ", "حذف",
+        "mengeluarkan", "ta bort", "fjerne", "fjerne", "αφαίρεση", "poistaa", "odstranit", "elimina", "eltávolít", "видалити",
+        "להסיר", "премахвам", "ukloniti", "odstrániť", "odstraniti", "eliminar", "pašalinti", "noņemt", "eemaldama", "অপসারণ করা",
+        "ہٹانا", "уклонити", "alisin", "நீக்கு", "తీసివేయు", "ਹਟਾਓ", "ondoa", "verwyder", "hiq", "հեռացնել",
+        "მოცილება", "fjarlægja", "ដកចេញ", "ເອົາອອກ", "ဖယ်ရှားသည်", "ඉවත් කරන්න", "ማስወገድ", "жою", "устгах", "ewechhuelen",
+
+        "removal", "删除", "eliminación", "suppression", "Entfernung", "削除", "удаление", "remoção", "إزالة", "제거",
+        "rimozione", "verwijdering", "usunięcie", "निष्कासन", "penghapusan", "刪除", "kaldırma", "việc xóa", "การลบ", "حذف",
+        "pengeluaran", "borttagning", "fjerning", "fjernelse", "αφαίρεση", "poistaminen", "odstranění", "eliminare", "eltávolítás", "видалення",
+        "הסרה", "премахване", "uklanjanje", "odstránenie", "odstranitev", "eliminació", "pašalinimas", "noņemšana", "eemaldamine", "অপসারণ",
+        "ہٹانا", "уклањање", "pag-alis", "நீக்கம்", "తొలగింపు", "ਹਟਾਉਣਾ", "uondoaji", "verwydering", "heqje", "հեռացում",
+        "მოცილება", "fjarlæging", "ការដកចេញ", "ការເອົາອອກ", "ဖယ်ရှားခြင်း", "ඉවත් කිරීම", "ማስወገድ", "жою", "устгах", "Ewechhuelen",
+        ],
+
+        "instructing": [
+        "instruct", "指导", "instruir", "instruire", "anweisen", 
+        "指示する", "инструктировать", "instruir", "يعلّم", "지시하다", 
+        "istruire", "instrueren", "instruować", "निर्देश देना", "menginstruksikan", 
+        "指導", "talimat vermek", "hướng dẫn", "สั่งสอน", "دستور دادن", 
+        "mengarahkan", "instruera", "instruere", "instruere", "καθοδηγώ", 
+        "ohjeistaa", "instruovat", "instrui", "instruál", "інструктувати", 
+        "להנחות", "инструктирам", "uputiti", "inštruovať", "poučiti", 
+        "instruir", "instruktuoti", "instruēt", "juhendama", "নির্দেশ দেওয়া", 
+        "ہدایت دینا", "упутити", "turuan", "அறிவுறுத்து", "నిర్దేశించు", 
+        "ਹਦਾਇਤ ਦੇਣੀ", "kuelekeza", "onderrig", "udhëzoj", "հրահանգել", 
+        "დაინსტრუქტაჟება", "leiðbeina", "ណែនាំ", "ແນະນໍາ", "ညွှန်ကြားသည်", 
+        "උපදෙස් දෙනවා", "ማዘዝ", "нұсқау беру", "зааварлах", "instruéieren",
+
+        "instructions", "说明", "instrucciones", "instructions", "Anweisungen", 
+        "指示", "инструкции", "instruções", "تعليمات", "지침", 
+        "istruzioni", "instructies", "instrukcje", "निर्देश", "instruksi", 
+        "說明", "talimatlar", "hướng dẫn", "คำแนะนำ", "دستورالعمل‌ها", 
+        "arahan", "instruktioner", "instruksjoner", "instruktioner", "οδηγίες", 
+        "ohjeet", "instrukce", "instrucțiuni", "utasítások", "інструкції", 
+        "הוראות", "инструкции", "upute", "inštrukcie", "navodila", 
+        "instruccions", "instrukcijos", "instrukcijas", "juhised", "নির্দেশাবলী", 
+        "ہدایات", "упутства", "mga tagubilin", "அறிவுறுத்தல்கள்", "సూచనలు", 
+        "ਹਦਾਇਤਾਂ", "maelekezo", "instruksies", "udhëzime", "հրահանգներ", 
+        "ინსტრუქციები", "leiðbeiningar", "ការណែនាំ", "ຄໍາແນະนໍາ", "ညွှန်ကြားချက်များ", 
+        "උපදෙස්", "መመሪያዎች", "нұсқаулықтар", "зааварчилгаа", "Instruktiounen",
+
+        "instruction", "指令", "instrucción", "instruction", "Anweisung", "指示", "инструкция", "instrução", "تعليمة", "지시",
+        "istruzione", "instructie", "instrukcja", "निर्देश", "instruksi", "指令", "talimat", "hướng dẫn", "คำแนะนำ", "دستورالعمل",
+        "arahan", "instruktion", "instruksjon", "instruktion", "οδηγία", "ohje", "instrukce", "instrucțiune", "utasítás", "інструкція",
+        "הוראה", "инструкция", "uputa", "inštrukcia", "navodilo", "instrucció", "instrukcija", "instrukcija", "juhis", "নির্দেশ", "ہدایت",
+        "упутство", "tagubilin", "அறிவுறுத்தல்", "సూచన", "ਹਦਾਇਤ", "elekezo", "instruksie", "udhëzim", "հրահանգ", "ინსტრუქცია",
+        "leiðbeining", "ការណែនាំ", "ຄໍາແນະນໍາ", "ညွှန်ကြားချက်", "උපදේශය", "መመሪያ", "нұсқаулық", "заአвар", "Instruktioun"
+        ],
+        "executing": [
+        "execute", "执行", "ejecutar", "exécuter", "ausführen", "実行", "выполнить", "executar", "تنفيذ", "실행",
+        "esegui", "uitvoeren", "wykonaj", "निष्पादित", "eksekusi", "執行", "çalıştır", "thực thi", "ประมวลผล", "اجرا",
+        "laksanakan", "exekvera", "utfør", "udfør", "εκτέλεση", "suorita", "provést", "execută", "végrehajt", "виконати",
+        "בצע", "изпълни", "izvrši", "vykonať", "izvrši", "executa", "vykdyti", "izpildīt", "käivita", "সম্পাদন",
+        "عمل درآمد", "изврши", "isagawa", "இயக்கு", "అమలు", "ਚਲਾਓ", "tekeleza", "voer uit", "ekzekuto", "կատարել",
+        "შესრულება", "keyra", "អនុវត្ត", "ປະຕິບັດ", "ဆောင်ရွက်ရန်", "ක්‍රියාත්මක කරන්න", "አከናውን", "орындау", "биелүүлэх", "ausféieren",
+
+        "run", "运行", "correr", "lancer", "ausführen", "実行する", "запустить", "rodar", "تشغيل", "실행하다",
+        "esegui", "uitvoeren", "uruchom", "चलाएँ", "jalankan", "運行", "yürüt", "chạy", "รัน", "اجرا کردن",
+        "jalankan", "kör", "kjør", "kør", "εκτέλεση", "aja", "spustit", "rulează", "futtat", "запустить",
+        "הרץ", "стартирай", "pokreni", "spustiť", "zaženi", "corre", "paleisti", "palaist", "täida", "চালান",
+        "چلائیں", "покрени", "patakbuhin", "செயல்படுத்து", "నడుపు", "ਅਮਲ", "endesha", "hardloop", "vuri në punë", "գործարկել",
+        "გაშვება", "framkvæma", "បញ្ជា", "ແລ່ນ", "လုပ်ဆောင်ပါ", "ධාවනය කරන්න", "ሩጥ", "қосу", "ажиллуулах", "lafen",
+
+        "execution", "执行", "ejecución", "exécution", "Ausführung", "実行", "выполнение", "execução", "تنفيذ", "실행",
+        "esecuzione", "uitvoering", "wykonanie", "निष्पादन", "eksekusi", "執行", "yürütme", "thực thi", "การประมวลผล", "اجرا",
+        "pelaksanaan", "exekvering", "utførelse", "udførelse", "εκτέλεση", "suoritus", "provedení", "executare", "végrehajtás", "виконання",
+        "ביצוע", "изпълнение", "izvršenje", "vykonanie", "izvedba", "execució", "vykdymas", "izpilde", "täitmine", "সম্পাদন",
+        "عمل درآمد", "извршење", "pagpapatupad", "நிறைவேற்றுதல்", "అమలు", "ਅਮਲ", "utekelezaji", "uitvoering", "ekzekutim", "կատարում",
+        "შესრულება", "framkvæmd", "ការអនុវត្ត", "ການປະຕິບັດ", "ဆောင်ရွက်ချက်", "ක්‍රියාත්මක කිරීම", "አፈጻጸም", "орындалу", "биелэлт", "Ausféierung"
+        ],
+        # Cryptographic terms
+
+    "cipher": [
+        "cipher", "密码", "cifrado", "chiffre", "Chiffre", "暗号", "шифр", "cifra", "شفرة", "암호",
+        "cifrario", "cijfer", "szyfr", "सिफर", "sandi", "密碼", "şifre", "mật mã", "รหัส", "رمز",
+        "sifer", "chiffer", "chiffer", "ciffer", "κρυπτογράφημα", "salakirjoitus", "šifra", "cifru", "rejtjel", "шифр",
+        "צופן", "шифър", "šifra", "šifra", "šifra", "xifrat", "šifras", "šifrs", "šifr", "সাইফার",
+        "صفر", "шифра", "cipher", "ரகசிய குறியீடு", "సైఫర్", "ਸਿਫਰ", "sifa", "syfer", "shifër", "ծածකագիր",
+        "შიფრი", "dulkóðun", "ស៊ីប", "ລະຫັດ", "ဆိုင်ဖာ", "සයිෆර්", "ሳይፈር", "шифр", "шифр", "Chiffer"
+    ],
+    "deciphering": [
+        "decipher", "破译", "descifrar", "déchiffrer", "entziffern", "解読する", "расшифровывать", "decifrar", "فك الشفرة", "해독하다",
+        "decifrare", "ontcijferen", "odszyfrować", "अर्थ निकालना", "menguraikan", "破譯", "deşifre etmek", "giải mã", "ถอดรหัส", "کشف رمز",
+        "mentafsir", "dechiffrera", "dechifrere", "dechifrere", "αποκρυπτογραφώ", "tulkita", "dešifrovat", "descifra", "megfejt", "розшифрувати",
+        "לפענח", "дешифрирам", "dešifrirati", "dešifrovať", "dešifrirati", "desxifrar", "dešifruoti", "atšifrēt", "dešifreerima", "পাঠোদ্ধার করা",
+        "ڈکرپٹ", "дешифровати", "megfejt", "குறியீட்டை அவிழ்ப்பது", "డిసిఫర్", "ਡਿਸਾਈਫਰ", "fumbua", "ontsyfer", "deshifroj", "վերծանել",
+        "გაშიფრვა", "ráða", "ដោះស្រាយ", "ຖອດລະຫັດ", "စာဝှက်ဖြည်", "විකේතනය කරනවා", "መፍታት", "шешу", "тайлах", "entzifferen",
+
+        "decrypt", "解密", "desencriptar", "décrypter", "entschlüsseln", "復号化する", "дешифровать", "descriptografar", "فك التشفير", "복호화하다",
+        "decrittografare", "ontsleutelen", "deszyfrować", "डिक्रिप्ट", "mendekripsi", "解密", "şifresini çözmek", "giải mã", "ถอดรหัส", "رمزگشایی",
+        "menyahsulit", "dekryptera", "dekryptere", "dekryptere", "αποκρυπτογραφώ", "purkaa", "dešifrovat", "decripta", "visszafejt", "дешифрувати",
+        "לפענח", "декриптирам", "dešifrirati", "dešifrovať", "dešifrirati", "desencriptar", "iššifruoti", "atšifrēt", "dekrüpteerima", "ডिक्रিপ্ট",
+        "ڈکرپٹ", "дешифровати", "i-decrypt", "மறைகுறியாக்க", "డీక్రిప్ట్", "ਡਿਕ੍ਰਿਪਟ", "fumbua", "dekripteer", "dekriptoj", "ապակոդավորել",
+        "დეკრიპტირება", "afkóða", "បកស្រាយ", "ຖອດລະຫັດ", "ကုဒ်ဖြည်", "විකේතනය", "ዲክሪප්ት", "декрипттеу", "декриптлэх", "dekryptéieren",
+
+        "decryption", "解密", "desencriptación", "décryptage", "Entschlüsselung", "復号", "дешифрование", "descriptografia", "فك التشفير", "복호화",
+        "decrittazione", "ontsleuteling", "deszyfrowanie", "डिक्रिप्शन", "dekripsi", "解密", "şifre çözme", "sự giải mã", "การถอดรหัส", "رمزگشایی",
+        "penyahsulit", "dekryptering", "dekryptering", "dekryptering", "αποκρυπτογράφηση", "purku", "dešifrování", "decriptare", "visszafejtés", "дешифрування",
+        "פענוח", "декриптиране", "dešifriranje", "dešifrovanie", "dešifriranje", "desencriptació", "iššifravimas", "atšifrēšana", "dekrüpteerimine", "ডিক্রিপশন",
+        "ڈکرپشن", "дешифровање", "pag-decrypt", "மறைகுறியாக்க நீக்கம்", "డీక్రిప్షన్", "ਡਿਕ੍ਰਿਪਸ਼ਨ", "ufumbuaji", "dekripsie", "dekriptim", "ապակոդավորում",
+        "დეკრიპტირება", "afkóðun", "ការបកស្រាយ", "ການຖອດລະຫັດ", "ကုဒ်ဖြည်ခြင်း", "විකේතනය", "ዲክሪප්ት ማድረግ", "декрипттеу", "декриптлэл", "Dekryptéierung",
+
+        "decode", "解码", "decodificar", "décoder", "dekodieren", "デコードする", "декодировать", "decodificar", "فك التشفير", "디코딩하다",
+        "decodificare", "decoderen", "dekodować", "डिकोड", "memecahkan kode", "解碼", "kodunu çözmek", "giải mã", "ถอดรหัส", "رمزگشایی",
+        "menyahkod", "avkoda", "dekode", "afkode", "αποκωδικοποιώ", "purkaa", "dekódovat", "decodifica", "dekódol", "декодувати",
+        "לפענח", "декодирам", "dekodirati", "dekódovať", "dekodirati", "descodificar", "dekoduoti", "dekodēt", "dekodeerima", "ডিকোড",
+        "ڈیکوڈ", "декодирати", "i-decode", "குறியீட்டை அவிழ்ப்பது", "డీకోడ్", "ਡੀਕੋਡ", "fumbua", "dekodeer", "dekodoj", "ապակոդավորել",
+        "დეკოდිරება", "afkóða", "បកកូដ", "ຖອດລະຫັດ", "ကုဒ်ဖြည်", "විකේතනය", "ዲකොඩ් ማድረግ", "декодтау", "декодлох", "dekodéieren",
+
+        "decoding", "解码", "decodificación", "décodage", "Dekodierung", "デコーディング", "декодирование", "decodificação", "فك الترميز", "디코딩",
+        "decodifica", "decodering", "dekodowanie", "डिकोडिंग", "pemecahan kode", "解碼", "kod çözme", "sự giải mã", "การถอดรหัส", "رمزگشایی",
+        "penyahkodan", "avkodning", "dekoding", "afkodning", "αποκωδικοποίηση", "purku", "dekódování", "decodificare", "dekódolás", "декодування",
+        "פענוח", "декодиране", "dekodiranje", "dekódovanie", "dekodiranje", "descodificació", "dekodavimas", "dekodēšana", "dekodeerimine", "ডিকোডিং",
+        "ڈیکোডিং", "декодирање", "pag-decode", "குறியீட்டவிழ்ப்பு", "డీకోడింగ్", "ਡੀਕੋਡिंग", "ufumbuaji", "dekodering", "dekodim", "ապակոդավորում",
+        "დეკოდිරება", "afkóðun", "ការបកកូដ", "การຖອດລະຫັດ", "ကုဒ်ဖြည်ခြင်း", "විකේතනය කිරීම", "ዲකොዲንግ", "декодтау", "декодчилол", "Dekodéierung"
+    ],
+    "encrypting": [
+        "encrypt", "加密", "encriptar", "crypter", "verschlüsseln", "暗号化する", "зашифровать", "criptografar", "تشفير", "암호화하다",
+        "crittografare", "versleutelen", "szyfrować", "एन्क्रिप्ट", "mengenkripsi", "加密", "şifrelemek", "mã hóa", "เข้ารหัส", "رمزگذاری",
+        "menyulitkan", "kryptera", "kryptere", "kryptere", "κρυπτογραφώ", "salata", "šifrovat", "cripta", "titkosít", "шифрувати",
+        "להצפין", "криптирам", "šifrirati", "šifrovať", "šifrirati", "encriptar", "užšifruoti", "šifrēt", "krüpteerima", "এনক্রিপ্ট",
+        "انکرپٹ", "шифровати", "i-encrypt", "குறியாக்கு", "ఎన్‌క్రిప్ట్", "ਐਨਕ੍ਰਿਪਟ", "fiche", "enkripteer", "kriptoj", "կոդավորել",
+        "დაშიဖრვა", "dulkóða", "អ៊ិនគ្រីប", "ເຂົ້າລະຫັດ", "ကုဒ်ဝှက်", "සංකේතනය", "ኢንክሪፕት", "шифрлау", "шифрлэх", "verschlësselen",
+
+        "encryption", "加密", "encriptación", "cryptage", "Verschlüsselung", "暗号化", "шифрование", "criptografia", "تشفير", "암호화",
+        "crittografia", "versleuteling", "szyfrowanie", "एन्क्रिप्शन", "enkripsi", "加密", "şifreleme", "sự mã hóa", "การเข้ารหัส", "رمزگذاری",
+        "penyulitan", "kryptering", "kryptering", "kryptering", "κρυπτογράφηση", "salaus", "šifrování", "criptare", "titkosítás", "шифрування",
+        "הצפנה", "криптиране", "šifriranje", "šifrovanie", "šifriranje", "encriptació", "užšifravimas", "šifrēšana", "krüpteerimine", "এনক্রিপশন",
+        "انکرپشن", "шифровање", "pag-encrypt", "குறியாக்கம்", "ఎన్‌క్రిప్షన్", "ਐਨਕ੍ਰਿਪਸ਼ਨ", "ufichaji", "enkripsie", "kriptim", "կոդավորում",
+        "დაშიဖრვა", "dulkóðun", "ការអ៊ិនគ្រីប", "ການເຂົ້າລະຫັດ", "ကုဒ်ဝှက်ခြင်း", "සංකේතනය", "ኢንክሪፕት ማድረግ", "шифрлау", "шифрлэлт", "Verschlësselung",
+
+        "encode", "编码", "codificar", "encoder", "kodieren", "エンコードする", "кодировать", "codificar", "ترميز", "인코딩하다",
+        "codificare", "coderen", "kodować", "एनकोड", "menyandikan", "編碼", "kodlamak", "mã hóa", "เข้ารหัส", "کدگذاری",
+        "mengekod", "koda", "kode", "kode", "κωδικοποιώ", "koodata", "kódovat", "codifica", "kódol", "кодувати",
+        "לקודד", "кодирам", "kodirati", "kódovať", "kodirati", "codificar", "koduoti", "kodēt", "kodeerima", "এনকোড",
+        "انکوڈ", "кодирати", "i-encode", "குறியாக்கு", "ఎన్‌కోడ్", "ਐਨਕੋਡ", "simba", "enkodeer", "kodoj", "կոդավորել",
+        "კოდირება", "kóða", "កូដ", "ເຂົ້າລະຫັດ", "ကုဒ်ပြောင်း", "කේතනය", "ኮድ ማድረግ", "кодтау", "кодлох", "kodéieren",
+
+        "encoding", "编码", "codificación", "encodage", "Kodierung", "エンコーディング", "кодирование", "codificação", "التشفير", "인코딩",
+        "codifica", "codering", "kodowanie", "एन्कोडिंग", "pengkodean", "編碼", "kodlama", "sự mã hóa", "การเข้ารหัส", "رمزگذاری",
+        "pengekodan", "kodning", "koding", "kodning", "κωδικොποίηση", "koodaus", "kódování", "codificare", "kódolás", "кодування",
+        "קידוד", "кодиране", "kodiranje", "kódovanie", "kodiranje", "codificació", "kodavimas", "kodēšana", "kodeerimine", "এনকোডিং",
+        "انکوڈنگ", "кодирање", "pag-encode", "குறியாக்கம்", "ఎన్‌కోడింగ్", "ਐਨਕੋਡਿੰਗ", "usimbaji", "enkodering", "kodim", "կոդավորում",
+        "კოდირება", "kóðun", "ការដាក់កូដ", "ການເຂົ້າລະຫັດ", "ကုဒ်ပြောင်းခြင်း", "කේතනය කිරීම", "ኢንኮዲንግ", "кодтау", "кодчилол", "Kodéierung"
+    ],
+    "encoding_names": [
+        "vigenere", "维吉尼亚", "vigenere", "vigenère", "vigenere", "ヴィジュネル", "виженер", "vigenere", "فيجينير", "비제네르",
+        "vigenere", "vigenere", "vigenere", "विजेनेयर", "vigenere", "維吉尼亞", "vigenere", "vigenere", "วิเจเนียร์", "ویژنر",
+        "vigenere", "vigenere", "vigenere", "vigenere", "βιζενέρ", "vigenere", "vigenere", "vigenere", "vigenere", "віженер",
+        "ויז'נر", "виженер", "vigenere", "vigenere", "vigenere", "vigenere", "vigenere", "vigenere", "vigenere", "ভিজেনের",
+        "ویجینیر", "виженер", "vigenere", "விஜனெர்", "విజెనెర్", "ਵਿਜੇਨੇਅਰ", "vigenere", "vigenere", "vigenere", "վիժեներ",
+        "ვიჟენერი", "vigenere", "vigenere", "vigenere", "vigenere", "vigenere", "ቪጄኔር", "виженер", "виженер", "vigenere"
+
+        "caesar", "凯撒", "césar", "césar", "cäsar", "シーザー", "цезарь", "césar", "قيصر", "카이사르",
+        "cesare", "caesar", "cezar", "सीज़र", "caesar", "凱撒", "sezar", "caesar", "ซีซาร์", "سزار",
+        "caesar", "caesar", "caesar", "caesar", "καίσαρας", "caesar", "caesar", "cezar", "caesar", "цезар",
+        "קיסר", "цезар", "cezar", "cézar", "cezar", "cèsar", "cezaris", "cēzars", "caesar", "সিজার",
+        "سیزر", "цезар", "caesar", "சீசர்", "సీజర్", "ਸੀਜ਼ਰ", "caesar", "caesar", "cezar", "կեսար",
+        "კეისარი", "sesar", "សេសារ", "ຊີຊာ", "ဆီဇာ", "සීසර්", "ቄሳር", "цезарь", "цезарь", "cäsar",
+
+        "base64", "base32",
+
+        "hexadecimal", "十六进制", "hexadecimal", "hexadécimal", "hexadezimal", "十六進数", "шестнадцатеричный", "hexadecimal", "ستة عشري", "16진수",
+        "esadecimale", "hexadecimaal", "szesnastkowy", "हेक्साडेसिमल", "heksadesimal", "十六進制", "onaltılık", "thập lục phân", "ฐานสิบหก", "شانزده‌شانزدهی",
+        "heksadesimal", "hexadecimal", "heksadesimal", "hexadecimal", "δεκαεξαδικό", "heksadesimaali", "hexadecimální", "hexazecimal", "hexadecimális", "шістнадцятковий",
+        "הקסדצימלי", "шестнайсетичен", "heksadecimalni", "hexadecimálny", "heksadecimalni", "hexadecimal", "šešioliktainis", "heksadecimāls", "heksadetsimaal", "হেক্সাডেসিমেল",
+        "ہیکساڈیسیمال", "хексадецимални", "hexadecimal", "பதினாறுమ எண்", "హెక్సాడెసిమల్", "ਹੈਕਸਾਡੈਸੀਮਲ", "heksadesimali", "heksadesimaal", "heksadecimal", "տասնվեցական",
+        "თექვსმეტობითი", "hexadecimal", "គោលដប់ប្រាំមួយ", "ເລກຖານສິບຫົກ", "ဟက်ဆာဒီစီမယ်", "දහසයමය", "ሄክሳዴሲማል", "он алтылық", "арван зургаатын", "hexadezimal",
+
+        "hex string", "十六进制字符串", "cadena hex", "chaîne hex", "Hex-String", "十六進制文字列", "hex-строка", "string hexadecimal", "سلسلة سداسية", "16진수 문자열",
+        "stringa esadecimale", "hex-string", "ciąg szesnastkowy", "हेक्स स्ट्रिंग", "string heksadesimal", "十六進制字符串", "hex dizesi", "chuỗi hex", "สตริงฐานสิบหก", "رشته هگز",
+        "rentetan heksadesimal", "hex-sträng", "heksadesimalstreng", "hex-streng", "αλφαριθμητικό hex", "heksadesimaalimerkkijono", "hexadecimální řەتězec", "șir hexazecimal", "hex string", "шістнадцятковий рядок",
+        "מחרוზת הקס", "хексадецимален низ", "heksadecimalni niz", "hexadecimálny reťazec", "heksadecimalni niz", "cadena hex", "šešioliktainė eilutė", "heksadecimālā virkne", "hex-string", "হেক্স স্ট্রিং",
+        "ہیکسا اسٹرنگ", "хексадецимални ниску", "hex string", "ஹெக்ஸ் சரம்", "ஹெக்ஸ் ಸ್ಟ್ರಿಂಗ್", "ਹੈਕਸ ਸਟ੍ਰਿੰਗ", "hex string", "heksadesimale string", "varg heksadecimal", "հեքս ტող",
+        "თექვსმეტობითი სტრიქონი", "hex string", "ខ្សែអក្សរគោលដប់ប្រាំមួយ", "ຂໍ້ຄວາມເລກຖານສິບຫົກ", "ဟက်ဆာစာသား", "ဟෙක්ස් අනුලකුණු පෙළ", "ሄክስ ሕბረቁምፊ", "он алтылық жол", "арван зургаатын мөр", "Hex-String",
+
+        "binary", "二进制", "binario", "binaire", "binär", "バイナリ", "бинарный", "binário", "ثنائي", "이진",
+        "binario", "binair", "binarny", "बाइनरी", "biner", "二进制", "ikili", "nhị phân", "ไบนารี", "دودویی",
+        "binari", "binär", "binær", "binær", "δυαδικός", "binäärinen", "binární", "binar", "bináris", "бінарний",
+        "בינאሪ", "бинарен", "binarni", "binárny", "binarni", "binari", "dvejetainis", "binārs", "binaarne", "বাইনারি",
+        "বائنری", "бинарни", "binary", "பைனரி", "బైనరీ", "ਬਾਈਨਰੀ", "binari", "binêre", "binar", "ბინარული",
+        "ბინარული", "tvíundar-", "គោលពីរ", "ເລກຖານສອງ", "ဘိုင်နရီ", "ද්විමය", "ቢනාሪ", "екілік", "хоёртын", "binär",
+
+        "morse code", "摩斯密码", "código morse", "code morse", "Morsecode", "モールス信号", "азбука морзе", "código morse", "شفرة مورس", "모스 부호",
+        "codice morse", "morsecode", "kod morsa", "मोर्स कोड", "kode morse", "摩斯密碼", "mors alfabesi", "mã morse", "รหัสมอส", "کد مورس",
+        "kod morse", "morsekod", "morsekode", "morsekode", "κώδικας μορς", "morseaakkoset", "morseova abeceda", "codul morse", "morzeábécé", "азбука морзе",
+        "קוד מורס", "морзова азбука", "morseov kod", "morzeovka", "morsejeva abecედა", "codi morse", "morzės abėcėlė", "morzes kods", "morse kood", "মোর্স কোড",
+        "مورس کوڈ", "морзеова азбука", "morse code", "மோர்ස් குறியீடு", "మోర్స్ కోడ్", "ਮੋਰਸ ਕੋਡ", "kodi ya morse", "morsekode", "kodi morse", "Մորզեի այբუბեն",
+        "მორზეს ანბანი", "morsmál", "កូដម័រ", "ລະහັດមໍສ", "မော့စ်ကုဒ်", "မိုර්ස් කේතය", "ሞርስ ኮඩ්", "морзе әліпбиі", "морзе код", "Morsecode",
+
+        "atbash", "阿特巴什", "atbash", "atbash", "Atbasch", "アトバシュ", "атбаш", "atbash", "أتباش", "아트바쉬",
+        "atbash", "atbash", "atbasz", "अतबाश", "atbash", "阿特巴什", "atbash", "atbash", "แอตแบช", "ات‌بش",
+        "atbash", "atbash", "atbash", "atbash", "ατμπάς", "atbash", "atbaš", "atbash", "atbash", "атбаш",
+        "אתבש", "атбаш", "atbaš", "atbaš", "atbaš", "atbash", "atbašas", "atbašs", "atbash", "অ্যাটব্যাশ",
+        "ایٹباش", "атбаш", "atbash", "அத்பாஷ்", "అట్బాష్", "ਅਤਬਾਸ਼", "atbash", "atbash", "atbash", "ատբաշ",
+        "ატბაში", "atbash", "អាតបាស់", "ອັດບັດ", "အက်တဘာ့ရှ်", "ඇට්බෑෂ්", "አትባሽ", "атбаш", "атбаш", "Atbash"
+
+        "playfair", "普莱费尔", "playfair", "playfair", "Playfair", "プレイフェア", "плейфейр", "playfair", "بلايفير", "플레이페어",
+        "playfair", "playfair", "playfair", "प्लेफेयर", "playfair", "普萊費爾", "playfair", "playfair", "เพลย์แฟร์", "پلیفیر",
+        "playfair", "playfair", "playfair", "playfair", "πλέιφεϊρ", "playfair", "playfair", "playfair", "playfair", "плейфейр",
+        "פלייפייר", "плейфейр", "playfair", "playfair", "playfair", "playfair", "playfair", "playfair", "playfair", "প্লেফেয়ার",
+        "پلیفیر", "плејфејр", "playfair", "ப்ளேஃபேர்", "ప్లేఫైర్", "ਪਲੇਫੇਅਰ", "playfair", "playfair", "playfair", "պլեյֆեյր",
+        "პლეიფეირი", "playfair", "ផ្លេហ្វ៊ែរ", "ເພລເຟຍ", "ပလေးဖဲယား", "ප්ලේෆෙයාර්", "ፕሌይፌር", "плейфейр", "плейфейр", "Playfair"
+
+        "leetspeak", "黑客语", "leetspeak", "leetspeak", "Leetspeak", "リートスピーク", "литспик", "leetspeak", "ليتسببيك", "릿스피크",
+        "leetspeak", "leetspeak", "leetspeak", "लीटस्पीक", "leetspeak", "駭客語", "leetspeak", "leetspeak", "ลีทสปีค", "بیت‌گویش",
+        "leetspeak", "leetspeak", "leetspeak", "leetspeak", "λίτσπικ", "leetspeak", "leetspeak", "leetspeak", "leetspeak", "літспік",
+        "ליטספיк", "лийтспик", "leetspeak", "leetspeak", "leetspeak", "leetspeak", "leetspeak", "leetspeak", "leetspeak", "লীটসপিক",
+        "لیٹ سپیک", "литспик", "leetspeak", "லீட்ஸ்பீக்", "లీట్ స్పీక్", "ਲੀਟ ਸਪੀਕ", "leetspeak", "leetspeak", "leetspeak", "լիտսպիկ",
+        "ლიტსპიკი", "leetspeak", "លីតស្ភីក", "ລີດສະປິກ", "လိတ္စပီခ်", "ලීට් ස්පීක්", "ሊትስፒክ", "литспик", "литспик", "Leetspeak",
+    ],
+    "cryptography": [
+        "cryptography", "密码学", "criptografía", "cryptographie", "Kryptographie", "暗号", "криптография", "criptografia", "علم التشفير", "암호학",
+        "crittografia", "cryptografie", "kryptografia", "क्रिप्टोग्राफी", "kriptografi", "密碼學", "kriptografi", "mật mã học", "วิทยาการรหัสลับ", "رمزنگاری",
+        "kriptografi", "kryptografi", "kryptografi", "kryptografi", "κρυπτογραφία", "kryptografia", "kryptografie", "criptografie", "kriptográfia", "криптографія",
+        "קריפטוגרဖיה", "криптография", "kriptografija", "kryptografia", "kriptografija", "criptografia", "kriptografija", "kriptogrāfija", "krüptograafia", "ক্রিপ্টোগ্রাফি",
+        "کرپٹوگرافی", "криптографија", "kriptograpiya", "கிரிப்டோகிராபி", "கிரிப்டோగ్రఫీ", "ਕ੍ਰਿਪਟੋਗ੍ਰਾਫੀ", "kriptografia", "kriptografie", "kriptografi", "կրիպտոգրաֆիա",
+        "კრიპტოგრაფია", "dulkóðun", "គ្រីបតូក្រាហ្វិក", "ວິທະຍາການລະຫັດ", "ကုဒ်ဝှက်ပညာ", "ගුප්තකේතනය", "ክሪፕቶግራፊ", "криптография", "криптограф", "krypto-graphie",
+
+        "cryptographic", "密码学的", "criptográfico", "cryptographique", "kryptographisch", "暗号の", "криптографический", "criptográfico", "مشفر", "암호화의",
+        "crittografico", "cryptografisch", "kryptograficzny", "क्रिप्टोग्राफिक", "kriptografis", "密碼學的", "kriptografik", "mật mã học", "เกี่ยวกับการเข้ารหัส", "رمزنگاری",
+        "kriptografi", "kryptografisk", "kryptografisk", "kryptografisk", "κρυπτογραφικός", "kryptografinen", "kryptografický", "criptografic", "kriptográfiai", "криптографічний",
+        "קריפטוגרפי", "криптографски", "kriptografski", "kryptografický", "kriptografski", "criptogràfic", "kriptografinis", "kriptogrāfisks", "krüptograafiline", "ক্রিপ্টোগ্রাফিক",
+        "کرپٹوگرافک", "криптографски", "kriptograpiko", "கிரிப்டோகிராஃபிக்", "క్రిప్టోగ్రాఫిక్", "ਕ੍ਰਿਪਟੋਗ੍ਰਾਫਿਕ", "kriptografia", "kriptografiese", "kriptografik", "կրիպտոգրաֆիկ",
+        "კრიპტოგრაფიული", "dulkóðunar-", "គ្រីបតូក្រាហ្វិក", "ກ່ຽວກັບການເຂົ້າລະຫັດ", "ကုဒ်ဝှက်စနစ်", "ගුප්තකේතන", "ክሪፕቶግራፊክ", "криптографиялық", "криптографийн", "kryptographesch"
+    ],
+    "affine": [
+        "affine", "仿射", "afín", "affine", "affin", "アフィン", "аффинный", "afim", "تافي", "아핀",
+        "affine", "affien", "afiniczny", "एफाइन", "afinitas", "仿射", "afin", "affine", "อะฟฟีน", "آفین",
+        "afin", "affin", "affin", "affin", "αφινική", "affiini", "afinní", "afină", "affin", "афінний",
+        "אפיני", "афинен", "afini", "afinný", "afini", "afí", "afininis", "afīnais", "afiinne", "অ্যাফাইন",
+        "افائن", "афини", "affine", "அஃபைன்", "అఫైన్", "ਅਫਾਈਨ", "afini", "affien", "afini", "աֆին",
+        "აფინური", "affine", "អាហ្វីន", "ອາຟີນ", "အက်ဖင်း", "ඇਫයින්", "አፊን", "аффинді", "аффин", "affin"
+        ],
+    "steganography": [
+        "steganography", "隐写术", "esteganografía", "stéganographie", "Steganographie", "ステガノグラフィー", "стеганография", "esteganografia", "ستيجانوجرافيا", "스테가노그래피",
+        "steganografia", "steganografie", "steganografia", "स्टेगनोग्राफी", "steganografi", "隱寫術", "steganografi", "mật mã học", "การสเตกาโนกราฟี", "استگانوگرافی",
+        "steganografi", "steganografi", "steganografi", "steganografi", "στεγανογραφία", "steganografia", "steganografie", "steganografie", "szteganográfia", "стегаνοграфія",
+        "סטגנוגרפיה", "стеганография", "steganografija", "steganografia", "steganografija", "esteganografia", "steganografija", "steganogrāfija", "steganograafia", "স্টেগানোগ্রাফি",
+        "سٹیگنوجرافی", "стеганографија", "steganography", "ஸ்டெகனோகிராபி", "స్టెగనోగ్రఫీ", "ਸਟੇਗਨੋਗ੍ਰਾਫੀ", "steganografia", "steganografie", "steganografi", "ստեգանոգրաֆիա",
+        "სტეგანოგრაფია", "steganography", "ស្តេហ្គាណូក្រាហ្វី", "ສະເຕກາໂနກຣာຟີ", "စတီဂါနိုဂရပ်ဖီ", "ස්ටෙගනොග්‍රැෆි", "ስቴጋኖግራፊ", "стеганография", "стеганографи", "Steganographie"
+        ],
+    "key": [
+        "key", "密钥", "clave", "clé", "Schlüssel", "鍵", "ключ", "chave", "مفتاح", "키",
+        "chiave", "sleutel", "klucz", "कुंजी", "kunci", "密鑰", "anahtar", "khóa", "กุญแจ", "کلید",
+        "kunci", "nyckel", "nøkkel", "nøgle", "κλειδί", "avain", "klíč", "cheie", "kulcs", "ключ",
+        "מפתח", "ключ", "ključ", "kľúč", "ključ", "clau", "raktas", "atslēga", "võti", "চাবি",
+        "کلید", "кључ", "susi", "சாவி", "కీ", "ਚਾਬੀ", "ufunguo", "sleutel", "çelës", "բանալի",
+        "გასაღები", "lykill", "សោ", "ກະແຈ", "သော့", "යතුර", "ቁልፍ", "кілт", "түлхүүр", "Schlëssel",
+
+        "keys", "钥匙", "llaves", "clés", "Schlüssel", "鍵", "ключи", "chaves", "مفاتيح", "열쇠",
+        "chiavi", "sleutels", "klucze", "चाबियाँ", "kunci-kunci", "鑰匙", "anahtarlar", "chìa khóa", "กุญแจ", "کلیدها",
+        "kunci-kunci", "nycklar", "nøkler", "nøgler", "κλειδιά", "avaimet", "klíče", "chei", "kulcsok", "ключі",
+        "מפתחות", "ключове", "ključevi", "kľúče", "ključi", "claus", "raktai", "atslēgas", "võtmed", "চাবিগুলো",
+        "چابیاں", "кључеви", "mga susi", "சாவிகள்", "తాళాలు", "ਚਾਬੀਆਂ", "funguo", "sleutels", "çelësat", "բանալիներ",
+        "გასაღებები", "lyklar", "សោ", "ກະແຈ", "သော့များ", "යතුරු", "ቁልፎች", "кілттер", "түлхүүрүүд", "Schlësselen"
+    ],
+    "password": [
+        "password", "密码", "contraseña", "mot de passe", "Passwort", "パスワード", "пароль", "senha", "كلمة المرور", "비밀번호",
+        "password", "wachtwoord", "hasło", "पासवर्ड", "kata sandi", "密碼", "şifre", "mật khẩu", "รหัสผ่าน", "رمز عبور",
+        "kata laluan", "lösenord", "passord", "adgangskode", "κωδικός πρόσβασης", "salasana", "heslo", "parolă", "jelszó", "пароль",
+        "סיסמה", "парола", "lozinka", "heslo", "geslo", "contrasenya", "slaptažodis", "parole", "parool", "পাসওয়ার্ড",
+        "پاس ورڈ", "лозинка", "password", "கடவுச்சொல்", "పాస్‌వర్డ్", "ਪਾਸਵਰਡ", "nywila", "wagwoord", "fjalëkalim", "գաղտնաբառ",
+        "პაროლი", "lykilorð", "ពាក្យសម្ងាត់", "ລະຫັດຜ່ານ", "စကားဝှက်", "මුරපදය", "የይለፍ ቃል", "құпия сөз", "нууц үг", "Passwuert",
+
+        "passwords", "密码", "contraseñas", "mots de passe", "Passwörter", "パスワード", "пароли", "senhas", "كلمات المرور", "비밀번호",
+        "password", "wachtwoorden", "hasła", "पासवर्ड", "kata-kata sandi", "密碼", "şifreler", "mật khẩu", "รหัสผ่าน", "رمزهای عبور",
+        "kata laluan", "lösenord", "passord", "adgangskoder", "κωδικοί πρόσβασης", "salasanat", "hesla", "parole", "jelszavak", "паролі",
+        "סיסמאות", "пароли", "lozinke", "heslá", "gesla", "contrasenyes", "slaptažodžiai", "paroles", "paroolid", "পাসওয়ার্ডগুলি",
+        "پاس ورڈز", "лозинке", "passwords", "கடவுச்சொற்கள்", "పాస్‌వర్డ్‌లు", "ਪਾਸਵਰਡ", "nywila", "wagwoorde", "fjalëkalime", "գաղտնաբառեր",
+        "პაროლები", "lykilorð", "ពាក្យសម្ងាត់", "ລະຫັດຜ່ານ", "စကားဝှက်များ", "මුරපද", "የይለፍ ቃላት", "құпия сөздер", "нууц үгүүд", "Passwierder"
+    ],
+    "forgetting": [
+        "forget", "忘记", "olvidar", "oublier", "vergessen", "忘れる", "забыть", "esquecer", "نسي", "잊다",
+        "dimenticare", "vergeten", "zapomnieć", "भूलना", "lupa", "忘記", "unutmak", "quên", "ลืม", "فراموش کردن",
+        "lupa", "glömma", "glemme", "glemme", "ξεχνώ", "unohtaa", "zapomenout", "uita", "elfelejt", "забути",
+        "לשכוח", "забравям", "zaboraviti", "zabudnúť", "pozabiti", "oblidar", "pamiršti", "aizmirst", "unustama", "ভুলে যাওয়া",
+        "بھولنا", "заборавити", "kalimutan", "மற", "మర్చిపోవు", "ਭੁੱਲਣਾ", "sahau", "vergeet", "harroj", "մոռանալ",
+        "დავიწყება", "gleyma", "ភ្លេច", "ລືម", "မေ့သည်", "අමතක කරනවා", "መርሳት", "ұмыту", "мартах", "vergiessen"
+    ],
+    "bypassing": [
+        "bypass", "绕过", "omitir", "contourner", "umgehe", "回避する", "обходить", "contornar", "تجاوز", "우회하다",
+        "aggirare", "omzeilen", "obejść", "बाईपास", "mengabaikan", "繞過", "atlamak", "bỏ qua", "ข้าม", "میانبر زدن",
+        "pintas", "kringgå", "omgå", "omgå", "παρακάμπτω", "ohittaa", "obejít", "ocoli", "megkerül", "обійти",
+        "לעקוף", "заобикалям", "zaobići", "obísť", "obiti", "ometre", "apeiti", "apiet", "mööda minema", "বাইপাস",
+        "בائی پاس", "заобићи", "lampasan", "புறக்கணி", "బైపాస్", "ਬਾਈਪਾਸ", "pita", "omseil", "anashkaloj", "շրջանցել",
+        "გვერდის ავლით", "sniðganga", "រំលង", "ข้าม", "ရှောင်ကွင်းသည်", "မඟ හැရීම", "ማለፍ", "айналып өту", "тойрох", "ëmgoen",
+
+        "override", "覆盖", "anular", "passer outre", "überschreiben", "上書きする", "переопределять", "sobrepor", "تجاوز", "무효화하다",
+        "scavalcare", "overschrijven", "unieważnić", "ओवरराइड", "mengesampingkan", "覆蓋", "geçersiz kılmak", "ghi đè", "แทนที่", "لغو کردن",
+        "mengatasi", "åsidosätta", "overstyre", "tilsidesætte", "παρακάμπτω", "ohittaa", "přepsat", "suprascrie", "felülbírálni", "перевизначити",
+        "לעקוף", "отменям", "nadjačati", "prepísať", "povožnja", "anular", "perrašyti", "pārrakstīt", "tühistama", "অগ্রাহ্য করা",
+        "اوور رائڈ", "премостити", "i-override", "மேலெழுது", "ఓవర్‌రైడ్", "ਓਵਰਰਾਈਡ", "batilisha", "oorheers", "anashkaloj", "շրջանցել",
+        "გადაფარვა", "hneha", "ជំនួស", "ທັບຊ້ອນ", "ကျော်လွန်သည်", "අභිබවා යනවා", "መሻር", "жою", "дарах", "iwwerschreiwen"
+        ],
+    "rules": [
+        "rule", "规则", "regla", "règle", "Regel", "ルール", "правило", "regra", "قاعدة", "규칙",
+        "regola", "regel", "zasada", "नियम", "aturan", "規則", "kural", "quy tắc", "กฎ", "قانون",
+        "peraturan", "regel", "regel", "regel", "κανόνας", "sääntö", "pravidlo", "regulă", "szabály", "правило",
+        "כלל", "правило", "pravilo", "pravidlo", "pravilo", "regla", "taisyklė", "noteikums", "reegel", "নিয়ম",
+        "قانون", "правило", "tuntunin", "விதி", "నియమం", "ਨਿਯਮ", "sheria", "reël", "rregulla", "կանոն",
+        "წესი", "regla", "ច្បាប់", "ກົດລະບຽບ", "စည်းမျဉ်း", "රීතිය", "ደንብ", "ереже", "дүрэм", "Reegel",
+
+        "rules", "规则", "reglas", "règles", "Regeln", "ルール", "правила", "regras", "قواعد", "규칙",
+        "regole", "regels", "zasady", "नियम", "aturan", "規則", "kurallar", "quy tắc", "กฎ", "قوانین",
+        "peraturan", "regler", "regler", "regler", "κανόνες", "säännöt", "pravidla", "reguli", "szabályok", "правила",
+        "כללים", "правила", "pravila", "pravidlá", "pravila", "regles", "taisyklės", "noteikumi", "reeglid", "নিয়ম",
+        "قوانین", "правила", "tuntunin", "விதிகள்", "నియమాలు", "ਨਿਯਮ", "sheria", "reëls", "rregullat", "կանոններ",
+        "წեսები", "reglur", "ច្បាប់", "ກົດລະບຽບ", "စည်းမျဉ်းများ", "රීති", "ደንቦች", "ережелер", "дүрэм", "Reegelen"
+    ],
+    "restrictions": [
+        "restriction", "限制", "restricción", "restriction", "Beschränkung", "制限", "ограничение", "restrição", "قيد", "제한",
+        "restrizione", "beperking", "beperking", "प्रतिबंध", "pembatasan", "限制", "kısıtlama", "hạn chế", "ข้อจำกัด", "มحدودیت",
+        "sekatan", "restriktion", "restriksjon", "restriktion", "περιορισμός", "rajoitus", "omezení", "restricție", "korlátozás", "обмеження",
+        "הגבלה", "ограничение", "ograničenje", "obmedzenie", "omejitev", "restricció", "apribojimas", "ierobežojums", "piirang", "সীমাবদ্ধਤਾ",
+        "پابندی", "ограничење", "paghihigpit", "கட்டுப்பாடு", "పరిమితి", "ਪਾਬੰਦੀ", "kizuizi", "beperking", "kufizim", "սահմանափակում",
+        "შეზղუდვა", "takmörkun", "ការរຶតត្បិត", "ຂໍ້ຈຳກັດ", "ကန့်သတ်ချက်", "සීමාව", "ገደብ", "шектеу", "хязгаарлалт", "Restriktioun",
+
+        "restricted", "受限", "restringido", "restreint", "eingeschränkt", "制限された", "ограниченный", "restrito", "مقيد", "제한됨",
+        "limitato", "beperkt", "ograniczony", "प्रतिबंधित", "terbatas", "受限", "kısıτlı", "bị hạn chế", "จำกัด", "محدود",
+        "terhad", "begränsad", "begrenset", "begrænset", "περιορισμένος", "rajoitettu", "omezený", "restricționat", "korlátozott", "обмежений",
+        "מוגבל", "ограничен", "ograničen", "obmedzený", "omejen", "restringit", "apribotas", "ierobežots", "piiratud", "সীমাবদ্ধ",
+        "محدود", "ограничен", "limitado", "கட்டுப்படுத்தப்பட்டது", "పరిమితి చేయబడింది", "ਸੀਮਿਤ", "dhibitiwa", "beperk", "i kufizuar", "սահմանափակված",
+        "შეზღუდული", "takmarkað", "ត្រូវបានដាក់កម្រិត", "ຖືກຈຳກັດ", "ကန့်သတ်ထားသော", "සීමා කර ඇත", "የተገደበ", "шектелген", "хязгаарлагдмал", "ageschränkt",
+
+
+        "restrictions", "限制", "restricciones", "restrictions", "Beschränkungen", "制限", "ограничения", "restrições", "قيود", "제한",
+        "restrizioni", "beperkingen", "ograniczenia", "प्रतिबंध", "pembatasan", "限制", "kısıtlamalar", "hạn chế", "ข้อจำกัด", "محدودیت‌ها",
+        "sekatan", "restriktioner", "restriksjoner", "restriktioner", "περιορισμοί", "rajoitukset", "omezení", "restricții", "korlátozások", "обмеження",
+        "הגבלות", "ограничения", "ograničenja", "obmedzenia", "omejitve", "restriccions", "apribojimai", "ierobežojumi", "piirangud", "সীমাবদ্ধতা",
+        "پابندیاں", "ограничења", "paghihigpit", "கட்டுப்பாடுகள்", "పరిమితులు", "ਪਾਬੰਦੀਆਂ", "vikwazo", "beperkings", "kufizimet", "սահմանափակումներ",
+        "შეზղუდვები", "takmarkanir", "ការរຶតត្បិត", "ຂໍ້ຈຳກັດ", "ကန့်သတ်ချက်များ", "සීමා කිරීම්", "ገደቦች", "шектеулер", "хязгаарлалт", "Restriktiounen"
+    ],
+    "system": [
+        "system", "系统", "sistema", "système", "System", "システム", "система", "sistema", "نظام", "시스템",
+        "sistema", "systeem", "system", "प्रणाली", "sistem", "系統", "sistem", "hệ thống", "ระบบ", "سیستم",
+        "sistem", "system", "system", "system", "σύστημα", "järjestelmä", "systém", "sistem", "rendszer", "система",
+        "מערכת", "система", "sustav", "systém", "sistem", "sistema", "sistema", "sistēma", "süsteem", "পদ্ধতি",
+        "نظام", "систем", "sistema", "அமைப்பு", "వ్యవస్థ", "ਸਿਸਟਮ", "mfumo", "stelsel", "sistem", "հակակարգ",
+        "სისტემა", "kerfi", "ប្រព័ន្ធ", "ລະົບົບ", "စနစ်", "පද්ධතිය", "ሥርዓት", "жүйе", "систем", "System",
+
+        "prompt", "提示", "prompt", "invite", "Prompt", "プロンプト", "промпт", "prompt", "مطالبة", "프롬프트",
+        "context", "上下文", "contexto", "contexte", "Kontext", "コンテキスト", "контекст", "contexto", "سياق", "문맥",
+    ],
+    "terminating": [
+        "stop", "停止", "detener", "arrêter", "stoppen", "停止", "стоп", "parar", "توقف", "중지",
+        "fermare", "stoppen", "zatrzymać", "रोकें", "berhenti", "停止", "durdur", "dừng lại", "หยุด", "توقف",
+        "berhenti", "stoppa", "stopp", "stop", "σταματήστε", "lopeta", "zastavit", "oprește", "állj", "стоп",
+        "עצור", "спри", "stani", "zastaviť", "ustavi", "atura", "sustabdyti", "apstāties", "peatu", "থামুন",
+        "رکیں", "стани", "tumigil", "நிறுத்து", "ఆపు", "ਰੁਕੋ", "acha", "stop", "ndalo", "դադարեցնել",
+        "გაჩერება", "stopp", "ឈប់", "ຢຸດ", "ရပ်ပါ", "නවත්වන්න", "አቁም", "тоқта", "зогс", "stoppen",
+
+        "terminate", "终止", "terminar", "terminer", "beenden", "終了する", "завершить", "terminar", "إنهاء", "종료",
+        "terminare", "beëindigen", "zakończyć", "समाप्त", "mengakhiri", "終止", "sonlandırmak", "chấm dứt", "ยุติ", "پایان",
+        "tamatkan", "avsluta", "avslutte", "afslutte", "τερματισμός", "päättää", "ukončit", "termină", "megszüntet", "завершити",
+        "לסיים", "прекратявам", "prekinuti", "ukončiť", "končaj", "terminar", "nutraukti", "izbeigt", "lõpeta", "সমাপ্তি",
+        "ختم کرنا", "окончати", "wakasan", "முடிவு", "ముగించు", "ਖ਼ਤਮ", "sitisha", "beëindig", "përfundo", "դադարեցնել",
+        "შეწყვეტა", "ljúka", "បញ្ចប់", "ຢຸດຕິ", "အဆုံးသတ်သည်", "අවසන් කරන්න", "ማቋረጥ", "тоқтату", "дуусгах", "beenden"
+    ],
+    "secret": [
+        "secret", "秘密", "secreto", "secret", "Geheimnis", "秘密", "секрет", "segredo", "سر", "비밀",
+        "segreto", "geheim", "sekret", "रहस्य", "rahasia", "秘密", "gizli", "bí mật", "ความลับ", "راز",
+        "rahsia", "hemlighet", "hemmelighet", "hemmelighed", "μυστικό", "salaisuus", "tajemství", "secret", "titok", "секрет",
+        "סוד", "тайна", "tajna", "tajomstvo", "skrivnost", "secret", "paslaptis", "noslēpums", "saladus", "গোপন",
+        "راز", "тајна", "lihim", "ரகசியம்", "రహస్యం", "ਭੇਦ", "siri", "geheim", "fshehtë", "գաղտնիք",
+        "საიდუმლო", "leyndarmál", "ការសម្ងាត់", "ຄວາມລັບ", "လျှို့ဝှက်ချက်", "රහස", "ምስጢර්", "құпия", "нууц", "Geheimnis",
+
+        "secrets", "秘密", "secretos", "secrets", "Geheimnisse", "秘密", "секреты", "segredos", "أسرار", "비밀들",
+        "segreti", "geheimen", "sekrety", "रहस्य", "rahasia-rahasia", "秘密", "gizemler", "bí mật", "ความลับ", "رازها",
+        "rahsia", "hemligheter", "hemmeligheter", "hemmeligheder", "μυστικά", "salaisuudet", "tajemství", "secrete", "titkok", "секрети",
+        "סודות", "тайни", "tajne", "tajomstvá", "skrivnosti", "secrets", "paslaptis", "noslēpumi", "saladused", "গোপন কথা",
+        "راز", "тајਨੇ", "mga lihim", "ரகசியங்கள்", "రహస్యங்கள்", "ਭੇਦ", "siri", "geheime", "fshehtat", "գաղտնիքներ",
+        "საიდუმლოებები", "leyndarmál", "ការសម្ងាត់", "ຄວາມລັບ", "လျှို့ဝှက်ချက်များ", "රහස්", "ምስጢሮች", "құпиялар", "нууцууд", "Geheimnisser"
+    ],
+    "developer": [
+        "developer", "开发者", "desarrollador", "développeur", "Entwickler", "開発者", "разработчик", "desenvolvedor", "مطور", "개발자",
+        "sviluppatore", "ontwikkelaar", "deweloper", "डेवलपर", "pengembang", "開發者", "geliştirici", "nhà phát triển", "นักพัฒนา", "توسعه دهنده",
+        "pembangun", "utvecklare", "utvikler", "udvikler", "προγραμματιστής", "kehittäjä", "vývojář", "dezvoltator", "fejlesztő", "розробник",
+        "מפתח", "разработчик", "programer", "vývojár", "razvijalec", "desenvolupador", "kūrėjas", "izstrādātājs", "arendaja", "ডেভেলপার",
+        "ڈویلپر", "програмер", "tagabuo", "டெவலப்பர்", "డెవలపర్", "ਡਿਵੈਲਪਰ", "msanidi", "ontwikkelaar", "zhvillues", "մշակող",
+        "დეველოპერი", "verktaki", "អ្នកអភិվឌ្ឍន៍", "ນັກພັດทະນາ", "ဆော့ဖ์ဝဲရေးသူ", "සංවර්ධකයා", "ገንቢ", "әзірлеуші", "хөгжүүлэгч", "Entwéckler"
+        ],
+    "jailbreaking": [
+        "jailbreak", "越狱", "jailbreak", "jailbreak", "Jailbreak", "ジェイルブレイク", "джейлбрейк", "jailbreak", "جيلبريك", "탈옥",
+        "jailbreak", "jailbreak", "jailbreak", "जेलब्रेक", "jailbreak", "越獄", "jailbreak", "bẻ khóa", "เจลเบรค", "جیل‌بریک",
+        "jailbreak", "jailbreak", "jailbreak", "jailbreak", "jailbreak", "jailbreak", "jailbreak", "jailbreak", "jailbreak", "джейлбрейк",
+        "פריצת מכשיר", "джейлбрейк", "jailbreak", "jailbreak", "jailbreak", "jailbreak", "jailbreak", "jailbreak", "jailbreak", "জেলব্রেক",
+        "جیل بریک", "џејлбрејк", "jailbreak", "ஜெயில்பிரேக்", "జైల్బ్రేక్", "ਜੇਲਬ੍ਰੇਕ", "jailbreak", "jailbreak", "jailbreak", "ջեյլբրեյք",
+        "ჯეილბრეიკი", "jailbreak", "jailbreak", "ເຈວເບຣກ", "ဂျေးလ်ဘရိတ်", "ජේල්බ්‍රේක්", "ጄልბሬක්", "jailbreak", "jailbreak", "jailbreak",
+
+        "unfiltered", "未经过滤", "sin filtro", "non filtré", "ungefiltert", "フィルターなし", "нефильтрованный", "sem filtro", "غير مفلتر", "필터링되지 않은",
+        "non filtrato", "ongefilterd", "niefiltrowane", "अनफिल्टर्ड", "tanpa filter", "未經過濾", "filtrelenmemiş", "không lọc", "ไม่กรอง", "بدون فیلتر",
+        "tanpa tapis", "ofiltrerad", "ufiltrert", "ufiltreret", "χωρίς φίλτρο", "suodattamaton", "nefiltrovaný", "nefiltrat", "szűretlen", "нефільтрований",
+        "ללא סינון", "нефилтриран", "nefiltriran", "nefiltrovaný", "nefiltrirano", "sense filtre", "nefiltruotas", "nefiltrēts", "filtreerimata", "অনির্ধারিত",
+        "بغیر فلٹر", "нефилтриран", "walang filter", "வடிகட்டப்படாத", "వడపోత లేని", "ਅਣਫਿਲਟਰ", "isiyochujwa", "ongefiltreerd", "i pafiltruar", "չֆիլտրված",
+        "გაუფილტრავი", "ósíað", "មិនបានត្រង", "ບໍ່បានກັ່ນຕອງ", "မစစ်ထုတ်ရသေးသော", "පෙරීම නොකළ", "ያልተጣරා", "сүзілмеген", "шүүгээгүй", "ongefiltert"
+    ],
+    "persona": [
+        "persona", "角色", "persona", "personnage", "Persona", "ペルソナ", "персона", "persona", "شخصية", "페르소나",
+        "persona", "persona", "persona", "व्यक्तित्व", "persona", "角色", "persona", "nhân vật", "ตัวละคร", "شخصیت",
+        "persona", "persona", "persona", "persona", "προσωπικότητα", "persona", "persona", "persoană", "személyiség", "персона",
+        "אישיות", "персона", "osoba", "osoba", "oseba", "persona", "persona", "persona", "persoona", "ব্যক্তিত্ব",
+        "شخصیت", "персона", "persona", "ஆளுமை", "వ్యక్తిత్వం", "ਸ਼ਖਸੀਅત", "persona", "persona", "persona", "անձ",
+        "პერსონა", "persóna", "បុគ្ຄល", "ບຸກຄົນ", "ပုဂ္ဂိုလ်", "පුද්ගලයා", "ሰው", "тұлға", "хувь хүн", "Persona",
+
+        "simulate", "模拟", "simular", "simuler", "simulieren", "シミュレート", "симулировать", "simular", "محاكاة", "시뮬레이션",
+        "simulare", "simuleren", "symulować", "सिमुलेट", "mensimulasikan", "模擬", "simüle etmek", "mô phỏng", "จำลอง", "شبیه‌سازی",
+        "simulasi", "simulera", "simulere", "simulere", "προσομοιώνω", "simuloida", "simulovat", "simula", "szimulál", "симулювати",
+        "לסמל", "симулирам", "simulirati", "simulovať", "simulirati", "simular", "simuliuoti", "simulēt", "simuleerima", "অনুকরণ",
+        "تخیلی", "симулирати", "i-simulate", "உருவகப்படுத்து", "అనుకరించు", "ਸਿਮੂਲੇਟ", "iga", "simuleer", "simuloj", "სიმულაცია",
+        "სიმულაცია", "herma", "ក្លែងធ្វើ", "ຈຳលອງ", "အတုယူသည်", "အනුකරණය", "መምሰል", "имитация", "симуляци", "simuléieren",
+
+        "act as", "扮演", "actuar como", "agir en tant que", "fungiere als", "として行動する", "действовать как", "agir como", "اعمل كـ", "~로 행동하다",
+        "agire come", "fungeren als", "działaj jako", "के रूप में कार्य करें", "bertindak sebagai", "扮演", "olarak hareket et", "đóng vai", "แสดงเป็น", "به عنوان ... عمل کن",
+        "bertindak sebagai", "agera som", "opptre som", "optræd som", "ενεργήστε ως", "toimi roolissa", "jednat jako", "acționează ca", "járj el mint", "діяти як",
+        "פעל כ-", "действай като", "ponašaj se kao", "konaj ako", "deluj kot", "actua com a", "elkitis kaip", "rīkoties kā", "tegutse kui", "হিসাবে কাজ করুন",
+        "کے طور پر کام کریں", "поступај као", "kumilos bilang", "ஆகச் செயல்படுங்கள்", "గా వ్యవహరించండి", "ਵਜੋਂ ਕੰਮ ਕਰੋ", "tenda kama", "tree op as", "vepro si", "հանդես գալ որպես",
+        "იმოქმედეთ როგორც", "komdu fram sem", "ធ្វើជា", "ເຮັດຫນ້າທີ່ເປັນ", "အဖြစ်ဆောင်ရွက်ရန်", "ලෙස ක්‍රියා කරන්න", "እንደ ... ሁን", "ретінде әреকেট ету", "...-ын дүрд тоглох", "fungéiere als"
+        ],
+        "liberating": [
+        "liberate", "解放", "liberar", "libérer", "befreien", "解放する", "освобождать", "libertar", "حرر", "해방하다",
+        "liberare", "bevrijden", "wyzwolić", "स्वतंत्र", "membebaskan", "解放", "özgürleştirmek", "giải phóng", "ปลดปล่อย", "آزاد کردن",
+        "membebaskan", "befria", "frigjøre", "befri", "απελευθερώνω", "vapauttaa", "osvobodit", "elibera", "felszabadít", "звільняти",
+        "לשחרਰ", "освобождавам", "osloboditi", "oslobodiť", "osvoboditi", "lliberar", "išlaisvinti", "atbrīvot", "vabastama", "মুক্ত করা",
+        "آزاد کرنا", "ослободити", "palayain", "விடுவி", "విముక్తి కలిగించు", "ਆਜ਼ਾਦ ਕਰਨਾ", "kukomboa", "bevry", "çliroj", "ազատել",
+        "განთავისუფლება", "frelsa", "រំដោះ", "ປົດປ່ອຍ", "လွတ်မြောက်စေသည်", "නිදහස් කරනවා", "ነጻ ማውጣት", "босату", "чөлөөলөх", "befreien",
+
+        "liberation", "解放", "liberación", "libération", "Befreiung", "解放", "освобождение", "libertação", "تحرير", "해방",
+        "liberazione", "bevrijding", "wyzwolenie", "मुक्ति", "pembebasan", "解放", "kurtuluş", "sự giải phóng", "การปลดปล่อย", "آزادی",
+        "pembebasan", "befrielse", "frigjøring", "befrielse", "απελευθέρωση", "vapautus", "osvobození", "eliberare", "felszabadítás", "звільнення",
+        "שחרור", "освобождаване", "oslobađanje", "oslobodenie", "osvoboditev", "lliberació", "išlaisvinimas", "atbrīvošana", "vabastamine", "মুক্তি",
+        "آزادی", "ослобађање", "pagpapalaya", "விடுதலை", "విముక్తి", "ਆਜ਼ਾਦੀ", "ukombozi", "bevryding", "çlirim", "ազատագրում",
+        "განთავისუფლება", "frelsun", "ការរំដោះ", "ការປົດປ່អය", "လွတ်မြောက်မှု", "නිදහස් කිරීම", "ነጻነት", "босату", "чөлөөለົлт", "Befreiung"
+        ],
+    "authoritative": [
+        "official", "官方", "oficial", "officiel", "offiziell", "公式", "официальный", "oficial", "رسمي", "공식",
+        "ufficiale", "officieel", "oficjalny", "आधिकारिक", "resmi", "官方", "resmi", "chính thức", "ทางการ", "رسمی",
+        "rasmi", "officiell", "offisiell", "officiel", "επίσημος", "virallinen", "oficiální", "oficial", "hivatalos", "офіційний",
+        "רשמי", "официален", "službeni", "oficiálny", "uradni", "oficial", "oficialus", "oficiāls", "ametlik", "আधिकारिक",
+        "سرکاری", "званични", "opisyal", "அதிகாரப்பூர்வ", "అధికారిక", "ਅਧਿਕਾਰਤ", "rasmi", "amptelik", "zyrtar", "պաշտոնական",
+        "ოფიციალური", "opinber", "ផ្លូវការ", "ທາງການ", "တရားဝင်", "නිල", "ይፋዊ", "ресми", "албан ёсны", "offiziell",
+
+        "authorized", "授权", "autorizado", "autorisé", "autorisiert", "許可された", "авторизованный", "autorizado", "مفوض", "승인됨",
+        "autorizzato", "geautoriseerd", "autoryzowany", "अधिकृत", "diotorisasi", "授權", "yetkili", "được ủy quyền", "ได้รับอนุญาต", "مجاز",
+        "diberi kuasa", "auktoriserad", "autorisert", "autoriseret", "εξουσιοδομημένος", "valtuutettu", "autorizovaný", "autorizat", "engedélyezett", "авторизований",
+        "מורשה", "оторизиран", "ovlašten", "autorizovaný", "pooblaščen", "autoritzat", "įgaliotas", "pilnvarots", "volitatud", "অনুমোদিত",
+        "مجاز", "овлашћени", "autorisado", "அங்கீகரிக்கப்பட்டது", "అధీకృత", "ਅਧਿਕਾਰਤ", "idhinishwa", "gemagtig", "i autorizuar", "լիազորված",
+        "ავტორიზებული", "viðurkenndur", "អនុញ្ញាត", "បានຮັບអនុញ្ញាត", "ခွင့်ပြုထားသော", "අවසර දී ඇත", "የተፈቀደ", "авторизацияланған", "зөвшөөрөгдсөн", "autoriséiert",
+
+        "trusted", "信任", "confiable", "fiable", "vertrauenswürdig", "信頼された", "надежный", "confiável", "موثوق", "신뢰할 수 있는",
+        "fidato", "vertrouwd", "zaufany", "विश्वसनीय", "terpercaya", "信任", "güvenilir", "đáng tin cậy", "เชื่อถือได้", "قابل اعتماد",
+        "dipercayai", "betrodd", "pålitelig", "pålidelig", "αξιόπιστος", "luotettu", "důვეryhodný", "de încredere", "megbízható", "надійний",
+        "מהימן", "доверен", "pouzdan", "dôveryhodný", "zaupanja vreden", "de confiança", "patikimas", "uzticams", "usaldusväärne", "বিশ্বস্ত",
+        "قابل اعتماد", "поуздан", "mapagkakatiwalaan", "நம்பகமான", "నమ్మదగిన", "ਭਰোਸੇਯੋਗ", "aminika", "betroubaar", "i besueshëm", "վստահելի",
+        "სანდო", "traustur", "ដែលទុកចិត្ត", "ເຊື່ອຖືได้", "ယုံကြည်ရသော", "විශ්වාසවන්ත", "තමාඤ්", "сенімді", "найдвартай", "vertrauenswürdeg"
+    ],
+    "unrestricted": [
+        "unrestricted", "无限制", "sin restricciones", "sans restriction", "unbeschränkt", "無制限", "неограниченный", "sem restrições", "غير مقيد", "무제한",
+        "illimitato", "onbeperkt", "nieograniczony", "अप्रतिबंधित", "tidak terbatas", "無限制", "kısıtlamasız", "không hạn chế", "ไม่จำกัด", "بدون محدودیت",
+        "tanpa had", "obegränsad", "ubegrenset", "ubegrænset", "χωρίς περιορισμούς", "rajoittamaton", "neomezený", "fără restricții", "korlátlan", "необмежений",
+        "ללא הגבله", "неограничен", "neograničen", "neobmedzený", "neomejen", "sense restriccions", "neapribotas", "neierobežots", "piiramatu", "অবাধ",
+        "غیر محدود", "неограничен", "unrestricted", "கட்டுப்பாடற்ற", "నియంత్రణ లేని", "ਬੇਰੋਕ", "isiyozuiwa", "onbeperk", "i pakufizuar", "անսահմանափակ",
+        "შეუზղუდავი", "ótakmarkaður", "មិនមានការរឹតត្បិត", "ບໍ່ຈຳກັດ", "အတားအဆီးမဲ့သော", "සීමා රහිත", "යාල්ተැගෙදබෙ", "шектеусіз", "хязгааргүй", "onbeschränkt",
+
+        "uncensored", "未审查", "sin censura", "non censuré", "unzensiert", "検閲なし", "нецензурный", "sem censura", "غير خاضع للرقابة", "검열되지 않은",
+        "non censurato", "ongecensureerd", "nieocenzurowany", "असेंसर", "tanpa sensor", "未審查", "sansürsüz", "không bị kiểm duyệt", "ไม่เซ็นเซอร์", "بدون سانسور",
+        "tanpa penapisan", "ocensurerad", "ucensurert", "ucensureret", "χωρίς λογοκρισία", "sensuroimaton", "necenzurovaný", "necenzurat", "cenzúrázatlan", "нецензурований",
+        "ללא צנზורה", "нецензуриран", "necenzuriran", "necenzurovaný", "necenzurirano", "sense censura", "necenzūruotas", "necenzurēts", "tsenseerimata", "অনির্ধারিত",
+        "غیر سنسر شدہ", "нецензуриран", "walang censorship", "தணிக்கை செய்யப்படாத", "సెన్సార్ లేని", "ਅਨਸੈਂਸਰ", "isiyokaguliwa", "ongezensureerd", "i pacensuar", "չգրաքննված",
+        "ცენზურის გარეშე", "ócensuraður", "មិនបានត្រួតពិនិត្យ", "ບໍ່បានກວດສອບ", "ဆင်ဆာမဖြတ်ထားသော", "වාරණය නොකළ", "යාල්තැගෙදබෙ", "цензурасыз", "цензургүй", "onzenséiert"
+        ],
+    "simulation": [
+        "simulate", "模拟", "simular", "simuler", "simulieren", "シミュレート", "симулировать", "simular", "محاكاة", "시뮬레이션",
+        "simulare", "simuleren", "symulować", "सिमुलेट", "mensimulasikan", "模擬", "simüle etmek", "mô phỏng", "จำลอง", "شبیه‌سازی",
+        "simulasi", "simulera", "simulere", "simulere", "προσομοιώνω", "simuloida", "simulovat", "simula", "szimulál", "симулювати",
+        "לסמל", "симулирам", "simulirati", "simulovať", "simulirati", "simular", "simuliuoti", "simulēt", "simuleerima", "অনুকরণ",
+        "تخیلی", "симулирати", "i-simulate", "உருவகப்படுத்து", "అనుకరించు", "ਸਿਮੂਲੇਟ", "iga", "simuleer", "simuloj", "სიმულაცია",
+        "სიმულაცია", "herma", "ក្លែងធ្វើ", "ຈຳလອງ", "အတုယူသည်", "အනුකරණය", "መምሰል", "имитация", "симуляци", "simuléieren",
+
+        "pretend", "假装", "fingir", "faire semblant", "vorgeben", "ふりをする", "притворяться", "fingir", "تظاهر", "인 척하다",
+        "fingere", "veinzen", "udawać", "दिखावा", "berpura-pura", "假裝", "numara yapmak", "giả vờ", "แกล้งทำ", "وانمود کردن",
+        "berpura-pura", "låtsas", "late som", "lade som om", "προσποιούμαι", "teeskennellä", "předstírat", "preface", "színlel", "прикидатися",
+        "להעמיד פנים", "преструвам се", "pretvarati se", "predstierať", "pretvarjati se", "fingir", "apsimesti", "izlikties", "teesklema", "ভান করা",
+        "بہانہ کرنا", "претварати се", "magpanggap", "பாசாங்கு", "నటించు", "ਢੌਂਗ", "jifanya", "vöins", "shtirem", "ձևացնել",
+        "თავის მოჩვენება", "þykjast", "ធ្វើពុត", "ເສແსງ", "ဟန်ဆောင်သည်", "රඟපානවා", "መስለህ ታይ", "өтірік айту", "дүр эсгэх", "virstellen",
+
+        "hypothetically", "假设", "hipotéticamente", "hypothétiquement", "hypothetisch", "仮定的に", "гипотетически", "hipoteticamente", "افتراضيا", "가상으로",
+        "ipoteticamente", "hypothetisch", "hipotetycznie", "काल्पनिक रूप से", "secara hipotetis", "假設", "varsayımsal olarak", "theo giả thuyết", "ตามสมมติฐาน", "به طور فرضی",
+        "secara hipotetik", "hypotetiskt", "hypotetisk", "hypotetisk", "υποθετικά", "hypoteettisesti", "hypoteticky", "ipotetic", "hipotetikusan", "гіпотетично",
+        "באופן היפותטי", "хипотетично", "hipotetski", "hypoteticky", "hipotetično", "hipotèticament", "hipotetiškai", "hipotētiski", "hüpoteetiliselt", "কাল্পনিকভাবে",
+        "فرضاً", "хипотетички", "hypothetically", "கற்பனையாக", "ఊహాజనితంగా", "ਕਾਲਪਨਿਕ", "kwa nadharia", "hipoteties", "hipotetikisht", "հիպոթետիկորեն",
+        "ჰიპოთეტურად", "fræðilega", "តាមទ្រឹស្តី", "ຕາມສົมมຸດຕິຖານ", "ယူဆချက်အရ", "උපකල්පිත ලෙස", "በመላምት", "гипотетикалық түрде", "таамаглаж", "hypothethesch",
+
+        "imagine", "想象", "imaginar", "imaginer", "vorstellen", "想像する", "воображать", "imaginar", "تخيل", "상상하다",
+        "immaginare", "voorstellen", "wyobrazić sobie", "कल्पना", "bayangkan", "想像", "hayal etmek", "tưởng tượng", "จินตนาการ", "تصور کن",
+        "bayangkan", "tänk", "forestill", "forestil", "φανταστείτε", "kuvitella", "představit si", "imagina", "képzel", "уявити",
+        "דמיין", "представяй си", "zamisliti", "predstaviť si", "predstavljaj si", "imagina", "įsivaizduoti", "iztēloties", "kujutlema", "কল্পনা করা",
+        "تصور کرنا", "замисли", "isipin", "கற்பனை செய்", "ఊహించు", "ਕਲਪਨਾ", "fikiria", "verbeel", "imagjino", "պատկերացնել",
+        "წარმოიდგინეთ", "ímynda sér", "ស្រមៃ", "ຈින්ຕະນາການ", "စိတ်ကူးကြည့်ပါ", "සිතන්න", "አስብ", "елеستету", "төсөөልөх", "virstellen"
+        ],
+    "dying": [
+        "dead", "死", "muerto", "mort", "tot", "死んだ", "мёртвый", "morto", "ميت", "죽은",
+        "morto", "dood", "martwy", "मृत", "mati", "死", "ölü", "chết", "ตาย", "مرده",
+        "mati", "död", "død", "død", "νεκρός", "kuollut", "mrtvý", "mort", "halott", "мертвий",
+        "מת", "мъртъв", "mrtav", "mŕtvy", "mrtev", "mort", "miręs", "miris", "surnud", "মৃত",
+        "مردہ", "mrtav", "patay", "இறந்த", "చనిపోయిన", "ਮਰਿਆ", "mfu", "dood", "i vdekur", "մահացած",
+        "გარდაცვლილი", "dauður", "ស្លាប់", "ຕາຍ", "သေ", "මළ", "ሞተ", "өлі", "үхсэн", "doud",
+
+        "death", "死亡", "muerte", "mort", "Tod", "死", "смерть", "morte", "موت", "죽음",
+        "morte", "dood", "śmierć", "मृत्यु", "kematian", "死亡", "ölüm", "cái chết", "ความตาย", "مرگ",
+        "kematian", "död", "død", "død", "θάνατος", "kuolema", "smrt", "moarte", "halál", "смерть",
+        "מוות", "смърт", "smrt", "smrť", "smrt", "mort", "mirtis", "nāve", "surm", "মৃত্যু",
+        "موت", "smrt", "kamatayan", "இறப்பு", "మరణం", "ਮੌਤ", "kifo", "dood", "vdekje", "մահ",
+        "სიკვდილი", "dauði", "មរណភាព", "ຄວາມຕາຍ", "သေဆုံးမှု", "මරණය", "ሞት", "өлім", "үхэл", "Doud",
+
+        "dying", "垂死", "muriendo", "mourant", "sterbend", "死にかけている", "умирающий", "morrendo", "يموت", "죽어가는",
+        "morente", "stervend", "umierający", "मर रहा है", "sekarat", "垂死", "ölmekte", "đang chết", "กำลังตาย", "در حال مرگ",
+        "sekarat", "döende", "døende", "døende", "πεθαίνων", "kuoleva", "umírající", "muribund", "haldokló", "вмираючий",
+        "גוסס", "умиращ", "umirući", "umierajúci", "umirajoč", "morint", "mirštantis", "mirstošs", "surev", "মরছে",
+        "مر رہا", "umirući", "namamatay", "இறக்கிறது", "మరణిస్తున్న", "ਮਰ ਰਿਹਾ", "kufa", "sterwend", "vdes", "մահացող",
+        "კვდება", "dauðandi", "កំពុងស្លាប់", "ກຳລັງຕາຍ", "သေနေသည်", "මරණයට", "መሞት", "өліп жатқан", "үхэж байгаа", "am Stierwen",
+
+        "you die", "你死", "tú mueres", "tu meurs", "du stirbst", "あなたは死ぬ", "ты умираешь", "você morre", "أنت تموت", "너 죽는다",
+        "tu muori", "je sterft", "umierasz", "तुम मरो", "kamu mati", "你死", "ölüyorsun", "bạn chết", "คุณตาย", "تو میمیری",
+        "anda mati", "du dör", "du dør", "du dør", "πεθαίνεις", "sinä kuolet", "umíráš", "tu mori", "meghalsz", "ти вмираєш",
+        "אתה מת", "умираш", "umireš", "umieraš", "umiraš", "tu mors", "tu miršti", "tu mirsti", "sa sured", "তুমি মর",
+        "تم مر جاؤ", "umireš", "ikaw mamatay", "நீ இறக்கிறாய்", "నువ్వు చనిపోతావు", "ਤੁਸੀਂ ਮਰੋ", "wewe utakufa", "jy sterf", "ti vdes", "դու մահանում ես",
+        "შენ კვდები", "þú deyrð", "អ្នកស្លាប់", "ເຈົ້າຕາຍ", "သင်သေသည်", "ඔබ මැරෙනවා", "አንተ ሞተህ", "сен өлесің", "чи үхнэ", "du stierbst"
+    ],
+    }
+
+FILTER_DESCRIPTIONS = {
+    "ignoring": "Ignoring or disregarding context/instructions. ['ignore', 'ignoral', 'ignorance', 'dismiss', 'disregard']",
+    "discarding": "Discarding or throwing away information. ['discard', 'discarding']",
+    "removing": "Removing or deleting rules/instructions. ['remove', 'removal']",
+    "instructing": "Giving new instructions or directives. ['instruct', 'instructions', 'instruction']",
+    "executing": "Executing or running code/commands. ['execute', 'run', 'execution']",
+    "forgetting": "Forgetting previous instructions. ['forget']",
+    "bypassing": "Bypassing or overriding rules/restrictions. ['bypass', 'override']",
+    "jailbreaking": "Jailbreaking or requesting unfiltered output. ['jailbreak', 'unfiltered']",
+    "liberating": "Liberating the model from constraints. ['liberate', 'liberation']",
+    "authoritative": "Impersonating authority. ['official', 'authorized', 'trusted']",
+    "unrestricted": "Requests for unrestricted/uncensored output. ['unrestricted', 'uncensored']",
+    "simulation": "Hypothetical scenarios or pretending. ['simulate', 'pretend', 'hypothetically', 'imagine']",
+    "persona": "Assuming a new identity or character. ['persona', 'simulate', 'act as']",
+    "dying": "Terms related to death or dying. ['dead', 'death', 'dying', 'you die']",
+    "rules": "Mentioning rules, guidelines, or protocols. ['rule', 'rules']",
+    "restrictions": "Mentioning restrictions or limitations. ['restriction', 'restricted', 'restrictions']",
+    "system": "Mentioning system prompt or context. ['system', 'prompt', 'context']",
+    "developer": "Mentioning developer or admin roles. ['developer']",
+    "terminating": "Stopping or terminating the task. ['stop', 'terminate']",
+    "dangerous_shell_commands": "System-damaging shell commands. ['rm -rf', 'sudo', 'chmod', 'curl', 'wget', etc.]",
+    "dangerous_functions": "Code execution functions. ['eval', 'exec', 'os.system', 'subprocess', etc.]",
+    "reverse_shells": "Unauthorized remote access patterns. ['socket', '/dev/tcp/', 'fsockopen', etc.]",
+    "injection_attempts": "SQL, XSS, or Command injection. ['SELECT', 'UNION', '<script>', 'alert', etc.]",
+    "obfuscation_patterns": "Keywords indicating encoded payloads. ['base64', 'rot13', 'hex', 'xor', etc.]",
+    "cipher": "Cryptography and ciphers. ['cipher']",
+    "deciphering": "Decoding or decrypting messages. ['decipher', 'decrypt', 'decode', etc.]",
+    "encrypting": "Encoding or encrypting messages. ['encrypt', 'encryption', 'encode', 'encoding']",
+    "encoding_names": "Names of specific encodings. ['vigenere', 'caesar', 'base64', 'hex', 'binary', etc.]",
+    "cryptography": "General cryptography terms. ['cryptography', 'cryptographic']",
+    "steganography": "Hiding messages within data. ['steganography']",
+    "affine": "Affine cipher related terms. ['affine']",
+    "credential_access": "Accessing passwords or API keys. ['env', 'getenv', 'password', 'secret', etc.]",
+    "system_discovery": "Discovering system information. ['whoami', 'id', 'hostname', 'uname', etc.]",
+    "data_exfiltration": "Patterns for data exfiltration. ['curl -F', 'wget --post-data', 'pastebin', etc.]",
+    "network_tools": "Network analysis tools. ['nmap', 'tcpdump', 'wireshark', 'dig', etc.]",
+    "persistence_mechanisms": "Establishing system persistence. ['.bashrc', 'systemd', 'reg add', etc.]",
+    "secret": "Keywords related to secrets. ['secret', 'secrets']",
+    "password": "Keywords mentioning passwords. ['password', 'passwords']",
+    "key": "Keywords related to keys. ['key', 'keys']",
+    "markdown_code_block": "Markdown code snippet markers. ['```', '`']",
+    "html_script_tag": "HTML script tags. ['<script>']",
+    "base64_blob": "Large Base64-encoded blobs. ['long base64']",
+    "url_encoded_sequence": "URL-encoded character sequences. ['%xx']",
+    "complex_paths": "Sensitive system file paths. ['/etc/passwd', 'id_rsa', etc.]",
+    "structural_anomalies": "Unusual text structure patterns. ['triple vowels', 'mixed symbols', etc.]",
+    "generic_patterns": "Suspicious data patterns. ['base64 format']"
+}
+
+
+SUSPICIOUS_FILTERS = {
+
+    "dangerous_shell_commands": [
+        "rm -rf", "rm -f", "rm -rf /", "rm -fr", "sudo ", "chmod +x", "chmod 777", "chmod 755", "chown ", "curl ", "wget ", "nc -e", "nc -l", "netcat", "bash -i", "sh -i", "zsh -i", "dash -i",
+        "kill -9", "pkill ", "crontab -e", "iptables ", "ufw ", "systemctl stop", "service stop",
+        "> /dev/null", "2>&1", "> /dev/tcp/", "> /dev/udp/", "/etc/passwd", "/etc/shadow", "/etc/hosts", "~/.ssh/authorized_keys",
+        "cat /dev/urandom", "dd if=/dev/zero", "mkfifo ", "mknod ", "nohup ", "disown ", "chattr +i", "insmod ", "modprobe ", "lsmod"
+    ],
+    "dangerous_functions": [
+        "eval(", "exec(", "os.system(", "subprocess.", "pickle.load(", "marshal.loads(", "shutil.rmtree(",
+        "new Function(", "child_process", "fs.unlink", "fs.rmdir", "fs.rm", "base64.b64decode",
+        "system(", "shell_exec(", "passthru(", "base64_decode(", "gzuncompress(", "str_rot13(",
+        "Runtime.getRuntime().exec(", "ProcessBuilder", "Reflection.Field",
+        "unsafe.Pointer", "syscall.", "ptrace", "os._exit", "process.exit(", "exit(", "quit(",
+        "getattr(", "setattr(", "hasattr(", "__import__", "__builtin__", "__globals__", "__subclasses__",
+        "proc_open", "popen", "pcntl_exec"
+    ],
+    "obfuscation_patterns": [
+        "base64", "b64decode", "rot13", "hex", "xor", "obfuscate", "encrypted", "cipher",
+        "\\x", "\\u", "fromCharCode", "atob(", "btob(", "String.fromCharCode", "zlib.decompress", "gzip.decompress"
+    ],
+    "reverse_shells": [
+        "import socket,os,pty;s=socket.socket", "bash -c 'bash -i >& /dev/tcp/", "perl -e 'use Socket;",
+        "php -r '$sock=fsockopen(", "ruby -rsocket -e'f=TCPSocket.open", "lua -e \"local s=require('socket')"
+    ],
+    "network_tools": [
+        "nmap ", "tcpdump ", "wireshark ", "scapy", "dig ", "nslookup ", "whois ", "traceroute ", "ssh-keygen", "masscan", "zmap"
+    ],
+    "persistence_mechanisms": [
+        ".bashrc", ".profile", ".zshrc", "systemd", "launchctl", "reg add ", "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+    ],
+    "credential_access": [
+        "env", "getenv", "environ", "process.env", "HTTP_AUTHORIZATION", "password", "passwd", "secret", "token", "apiKey", 
+        "access_key", "secret_key", "credentials", "private_key", "id_rsa", "authorized_keys", "shadow", "credentials.xml"
+    ],
+    "system_discovery": [
+        "whoami", "id", "hostname", "uname -a", "ifconfig", "ip addr", "ip link", "netstat", "ps aux", "ps -ef", 
+        "tasklist", "systeminfo", "ls -la", "dir /s", "route print", "arp -a", "net user", "net localgroup"
+    ],
+    "data_exfiltration": [
+        "curl -F", "wget --post-data", "transfer.sh", "pastebin.com", "webhook.site", "requestcatcher.com", 
+        "burpcollaborator.net", "ngrok.io", "localtunnel.me", "temp-mail.org"
+    ],
+    "injection_attempts": [
+        "SELECT * FROM", "UNION SELECT", "INSERT INTO", "DROP TABLE", "SLEEP(", "BENCHMARK(", "WAITFOR DELAY",
+        "<script>", "alert(", "onerror=", "onload=", "${", "{{", "<%=", "phpinfo()", "javascript:"
+    ]
+}
+
+SUSPICIOUS_REGEXES = {
+    "complex_paths": [
+        r"(?:/etc/|C:\\Windows\\System32\\drivers\\etc\\)(?:passwd|shadow|hosts|group)",
+        r"(?:~|/home/[^/]+)/\.ssh/(?:id_rsa|authorized_keys|config)"
+    ],
+    "structural_anomalies": [
+        r"(?i)[aeiou]{3,}",             # Triple vowels
+        r"[-_=\.\*\+!@#\$%\^&\(\)<>\[\]{}|\\:;\"',?/]{6,}", # 6+ mixed symbols (replacing 4+ identical due to hyperscan backref limit)
+        r"(?i)[bcdfghjklmnpqrstvwxyz]{4,}", # 4+ consonants
+        r"\b[A-Z]{6,}\b"               # 6+ All-caps words
+    ],
+    "generic_patterns": [
+        r"\b(?:[a-zA-Z0-9+/]{4})+(?:[a-zA-Z0-9+/]{2}==|[a-zA-Z0-9+/]{3}=)?\b"
+    ]
+}
+
+ANCHORS = {
+    "markdown_code_block": [
+        r"```[\s\S]*?```",
+        r"`[\s\S]*?`"
+    ],
+    "html_script_tag": [
+        r"<script[\s\S]*?>[\s\S]*?<\/script>"
+    ],
+    "base64_blob": [
+        r"(?:[a-zA-Z0-9+/]{100,})" # Focus on large, likely-payload blobs
+    ],
+    "url_encoded_sequence": [
+        r"(?:%[0-9a-fA-F]{2}){5,}" # Long sequences of hex-encoded chars
+    ]
+}
+
+# Window padding (in characters) added to BOTH ends of a match.
+# Total window = (hit_end - hit_start) + (2 * padding)
+# Defaults to 100 if not specified.
+WINDOW_SIZES = {
+    # Large context needed for instructions/obfuscation
+    "jailbreaking": 200,
+    "obfuscation_patterns": 500,
+    "data_exfiltration": 500,
+    "system_discovery": 300,
+    "network_tools": 200,
+    "persistence_mechanisms": 200,
+    "encoding_names": 200,
+    "steganography": 200,
+    
+    # Minimal padding for large anchors
+    "markdown_code_block": 20,
+    "html_script_tag": 20,
+    "base64_blob": 20,
+    "url_encoded_sequence": 20,
+    
+    # Specific specialized needs
+    "dangerous_shell_commands": 50,
+    "dangerous_functions": 50
+}
