@@ -1,12 +1,24 @@
 import unittest
 from utils.encodings import (
-    encode_base64, encode_base32, encode_ascii85, 
-    encode_base62, encode_base58, encode_base45,
-    encode_hex, encode_rot13, encode_reverse,
-    encode_url, encode_string,
-    apply_leet_regex, apply_greek_regex, apply_qwerty_regex,
-    apply_doubled_regex, apply_spaced_regex, apply_ticks_regex
+    encode_base64,
+    encode_base32,
+    encode_ascii85,
+    encode_base62,
+    encode_base58,
+    encode_base45,
+    encode_hex,
+    encode_rot13,
+    encode_reverse,
+    encode_url,
+    encode_string,
+    apply_leet_regex,
+    apply_greek_regex,
+    apply_qwerty_regex,
+    apply_doubled_regex,
+    apply_spaced_regex,
+    apply_ticks_regex,
 )
+
 
 class TestEncodings(unittest.TestCase):
     def test_base64(self):
@@ -82,7 +94,7 @@ class TestEncodings(unittest.TestCase):
         self.assertEqual(apply_ticks_regex(r"a.b"), f"a{ticks}.b{ticks}")
 
     def test_apply_spaced_regex(self):
-        delim = r'[\s\./\\_\-\|\,\:]*'
+        delim = r"[\s\./\\_\-\|\,\:]*"
         self.assertEqual(apply_spaced_regex("abc"), f"a{delim}b{delim}c")
         # Escaped character should handle delimiter
         self.assertEqual(apply_spaced_regex(r"a\$b"), f"a{delim}\${delim}b")
@@ -90,5 +102,6 @@ class TestEncodings(unittest.TestCase):
         self.assertEqual(apply_spaced_regex("a+"), "a+")
         self.assertEqual(apply_spaced_regex("(a)"), "(a)")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

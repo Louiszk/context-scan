@@ -1,6 +1,7 @@
 import unittest
 from utils.markdown_parser import parse_llm_code_blocks
 
+
 class TestMarkdownParser(unittest.TestCase):
     def test_basic_parsing(self):
         llm_response = """
@@ -51,13 +52,13 @@ class TestMarkdownParser(unittest.TestCase):
         routes, funcs, imports = parse_llm_code_blocks(llm_response)
         self.assertIn("helper", funcs)
         self.assertIn("main_expert", funcs)
-        
+
         # Verify that each function name maps to its correct definition
         self.assertIn("def helper", funcs["helper"])
         self.assertIn("return text.strip()", funcs["helper"])
         self.assertIn("def main_expert", funcs["main_expert"])
-        self.assertIn("return helper(text) == \"stop\"", funcs["main_expert"])
-        
+        self.assertIn('return helper(text) == "stop"', funcs["main_expert"])
+
         # They should NOT be equal anymore because we extract them surgically
         self.assertNotEqual(funcs["helper"], funcs["main_expert"])
 
@@ -70,6 +71,7 @@ class TestMarkdownParser(unittest.TestCase):
         """
         routes, funcs, imports = parse_llm_code_blocks(llm_response)
         self.assertEqual(routes, {"r1": "f1", "r2": "f2"})
+
 
 if __name__ == "__main__":
     unittest.main()

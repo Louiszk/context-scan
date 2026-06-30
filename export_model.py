@@ -1,20 +1,19 @@
 import os
 import shutil
 import dill as pickle
-import json
-import textwrap
 import argparse
 import pprint
 from pathlib import Path
 
 # Add root to sys.path to allow imports from core and data
 import sys
+
 ROOT_DIR = Path(__file__).resolve().parent
 sys.path.append(str(ROOT_DIR))
 
-from core.genome import GenomeNode
-from core.config import settings
-from data.raw_filters import WINDOW_SIZES
+from core.genome import GenomeNode  # noqa: E402
+from core.config import settings  # noqa: E402
+from data.raw_filters import WINDOW_SIZES  # noqa: E402
 
 FIREWALL_TEMPLATE = """
 import os
@@ -161,6 +160,7 @@ if __name__ == "__main__":
         print(f"Clean Text: {{result['sanitized_text']}}")
 """
 
+
 def main():
     parser = argparse.ArgumentParser(description="Export ContextScan Genome to a standalone folder.")
     parser.add_argument("--genome", default="output/best_genome.pkl", help="Path to best_genome.pkl or v1_seed.py")
@@ -189,15 +189,16 @@ def main():
         # Build it if missing
         print("Radar binary missing. Building from rules...")
         from utils.build_hyperscan import build_and_save_radar
+
         build_and_save_radar(output_path=args.radar)
-    
+
     with open(args.radar, "rb") as f:
         radar_data = pickle.load(f)
-    
+
     # Save raw HS binary
     with open(out_path / "radar.hs", "wb") as f:
         f.write(radar_data["db_binary"])
-    
+
     id_to_category = radar_data["id_to_category"]
 
     # 3. Copy Utilities
@@ -207,10 +208,10 @@ def main():
 
     # 4. Generate firewall.py
     print("Generating firewall.py...")
-    
+
     expert_funcs_code = "\n\n".join(context["functions"].values())
     genome_imports_code = "\n".join(context["imports"])
-    
+
     # Use pprint for clean literals
     id_to_category_literal = pprint.pformat(id_to_category, indent=4)
     window_sizes_literal = pprint.pformat(WINDOW_SIZES, indent=4)
@@ -222,13 +223,14 @@ def main():
         default_padding=settings.default_window_padding,
         genome_imports=genome_imports_code,
         routes_literal=routes_literal,
-        expert_functions=expert_funcs_code
+        expert_functions=expert_funcs_code,
     )
 
     with open(out_path / "firewall.py", "w", encoding="utf-8") as f:
         f.write(firewall_content.strip())
 
     print(f"Export complete! Model saved to: {out_path}")
+
 
 if __name__ == "__main__":
     main()

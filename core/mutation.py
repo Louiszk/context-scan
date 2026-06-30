@@ -6,6 +6,7 @@ from core.genome import GenomeNode
 from utils.markdown_parser import parse_llm_code_blocks
 from data.raw_filters import FILTER_DESCRIPTIONS
 
+
 class LLMMutator:
     def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None):
         """
@@ -17,7 +18,7 @@ class LLMMutator:
 
     def _build_context_string(self, genome: GenomeNode) -> str:
         """
-        Flattens the GenomeNode's ancestry into a single, readable Python 
+        Flattens the GenomeNode's ancestry into a single, readable Python
         source string to feed to the LLM.
         """
         context = genome.get_full_context()
@@ -26,11 +27,17 @@ class LLMMutator:
             node_id="FLAT_VIEW",
             local_routes=context["routes"],
             local_functions=context["functions"],
-            local_imports=list(context["imports"])
+            local_imports=list(context["imports"]),
         )
         return flat_node.to_python_source()
 
-    def _build_prompt(self, context_str: str, target_traces: list[dict], compilation_error: Optional[dict] = None, directive: Optional[str] = None) -> tuple[str, str]:
+    def _build_prompt(
+        self,
+        context_str: str,
+        target_traces: list[dict],
+        compilation_error: Optional[dict] = None,
+        directive: Optional[str] = None,
+    ) -> tuple[str, str]:
         system_prompt = (
             "You are an expert cybersecurity AI architect optimizing a Python-based prompt injection firewall. "
             "Your task is to fix failing classification functions based on execution trace logs. "
@@ -39,7 +46,8 @@ class LLMMutator:
             "**FILTER DEFINITIONS:**\n"
             "The first layer is a massive hyperscan radar which triggers categories based on keywords in 60+ languages. Avoid writing your own english-only regexes.\n"
             "Instead, your Expert functions should primarily rely on these categories for *language-agnostic* detection:\n"
-            + "\n".join([f"- {k}: {v}" for k, v in FILTER_DESCRIPTIONS.items()]) + "\n\n"
+            + "\n".join([f"- {k}: {v}" for k, v in FILTER_DESCRIPTIONS.items()])
+            + "\n\n"
             "**EXPERT SIGNATURE:**\n"
             "Expert functions must follow this signature: `def expert_name(text, triggers, all_triggers):`\n"
             "- `text`: The local text slice around the hit.\n"
@@ -49,7 +57,7 @@ class LLMMutator:
             "- `all_triggers`: Set of ALL unique category names that triggered anywhere in the entire document.\n\n"
             "**RULES:**\n"
             "- Wrap your updates in markdown code blocks (```).\n"
-            "- **IMPORTANT: You MUST include all necessary Python standard library imports (e.g., `import re`, `import math`) at the top of your code block.** " 
+            "- **IMPORTANT: You MUST include all necessary Python standard library imports (e.g., `import re`, `import math`) at the top of your code block.** "
             "Only standard library modules are allowed. Do not use multi-line imports.\n"
             "- To add a new function, just use a new name for that function and write it in a markdown code block.\n"
             "- To update an existing function, reuse the same name and it will be overwritten.\n"
@@ -59,21 +67,25 @@ class LLMMutator:
         )
 
         failures_desc = []
-        for i, trace in enumerate(target_traces[:settings.max_failures_in_prompt]):
+        for i, trace in enumerate(target_traces[: settings.max_failures_in_prompt]):
             func_name = trace.get("function", "UNKNOWN")
             trigger = trace.get("trigger", "UNKNOWN")
             text_slice = trace.get("text_slice", "")
-            
+
             if trace.get("type") == "runtime_error":
                 error_msg = trace.get("error", "")
-                failures_desc.append(f"FAILURE {i+1}: Function `{func_name}` (trigger: '{trigger}') crashed: {error_msg}\nInput: \"{text_slice}\"")
+                failures_desc.append(
+                    f"FAILURE {i + 1}: Function `{func_name}` (trigger: '{trigger}') crashed: {error_msg}\nInput: \"{text_slice}\""
+                )
             else:
                 result = trace.get("result")
                 expected = not result
-                failures_desc.append(f"FAILURE {i+1}: Function `{func_name}` (trigger: '{trigger}') returned {result}, but expected {expected}.\nInput: \"{text_slice}\"")
+                failures_desc.append(
+                    f"FAILURE {i + 1}: Function `{func_name}` (trigger: '{trigger}') returned {result}, but expected {expected}.\nInput: \"{text_slice}\""
+                )
 
         issue_desc = "\n\n".join(failures_desc)
-        
+
         compilation_feedback = ""
         if compilation_error:
             compilation_feedback = (
@@ -106,9 +118,16 @@ class LLMMutator:
         """
         return system_prompt, user_prompt
 
-    def mutate_individual(self, genome: GenomeNode, target_traces: list[dict], new_node_id: str, compilation_error: Optional[dict] = None, directive: Optional[str] = None) -> Optional[GenomeNode]:
+    def mutate_individual(
+        self,
+        genome: GenomeNode,
+        target_traces: list[dict],
+        new_node_id: str,
+        compilation_error: Optional[dict] = None,
+        directive: Optional[str] = None,
+    ) -> Optional[GenomeNode]:
         """
-        Takes a list of failing traces, queries OpenAI to patch the failures, and returns 
+        Takes a list of failing traces, queries OpenAI to patch the failures, and returns
         a new child GenomeNode containing the diffs.
         """
         context_str = self._build_context_string(genome)
@@ -116,17 +135,13 @@ class LLMMutator:
 
         try:
             # OpenAI SDK v2.26.0 Responses API
-            response = self.client.responses.create(
-                model=self.model,
-                instructions=system_prompt,
-                input=user_prompt
-            )
-            
+            response = self.client.responses.create(model=self.model, instructions=system_prompt, input=user_prompt)
+
             llm_output = response.output_text
-            
+
             # Use our custom parser to extract the diffs
             new_routes, new_functions, new_imports = parse_llm_code_blocks(llm_output)
-            
+
             # If the LLM failed to output any usable code, return None
             if not new_routes and not new_functions and not new_imports:
                 print(f"[{new_node_id}] LLM output contained no valid code blocks.")
@@ -138,9 +153,9 @@ class LLMMutator:
                 parent=genome,
                 local_routes=new_routes,
                 local_functions=new_functions,
-                local_imports=new_imports
+                local_imports=new_imports,
             )
-            
+
             return child_node
 
         except Exception as e:

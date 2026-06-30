@@ -1,6 +1,6 @@
 import os
 import sys
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Optional
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
@@ -9,6 +9,7 @@ from core.config import settings
 from core.evaluations import Evaluator
 from core.genome import GenomeNode
 from core.mutation import LLMMutator
+
 
 class EvolutionaryEngine:
     def __init__(self, training_data_path: str, radar_path: Optional[str] = None):
@@ -27,7 +28,7 @@ class EvolutionaryEngine:
                 key = f["windows"][0]["triggers"][0]["category"] if f["windows"][0]["triggers"] else "unknown"
             else:
                 key = "no_radar_hits"
-            
+
             if key not in groups:
                 groups[key] = []
             groups[key].append(f)
@@ -42,19 +43,26 @@ class EvolutionaryEngine:
                 if f["trace"]:
                     target_traces.append(f["trace"][-1])
                 else:
-                    target_traces.append({
-                        "type": "execution",
-                        "trigger": key,
-                        "function": "NONE",
-                        "text_slice": f["windows"][0]["text_slice"] if f["windows"] else f["text"][:100],
-                        "result": f["actual"]
-                    })
+                    target_traces.append(
+                        {
+                            "type": "execution",
+                            "trigger": key,
+                            "function": "NONE",
+                            "text_slice": f["windows"][0]["text_slice"] if f["windows"] else f["text"][:100],
+                            "result": f["actual"],
+                        }
+                    )
         return target_traces
 
-    def run_beam_evolution(self, iterations: Optional[int] = None, samples_limit: Optional[int] = None, 
-                           beam_width: Optional[int] = None, start_genome: Optional[GenomeNode] = None,
-                           directive: Optional[str] = None) -> GenomeNode:
-        
+    def run_beam_evolution(
+        self,
+        iterations: Optional[int] = None,
+        samples_limit: Optional[int] = None,
+        beam_width: Optional[int] = None,
+        start_genome: Optional[GenomeNode] = None,
+        directive: Optional[str] = None,
+    ) -> GenomeNode:
+
         # Use centralized defaults if not provided
         iterations = iterations or settings.default_iterations
         samples_limit = samples_limit or settings.default_samples_per_iteration
@@ -64,9 +72,10 @@ class EvolutionaryEngine:
             base_dir = settings.get_path("base_genomes_dir")
             latest_v = -1
             latest_path = None
-            
+
             if base_dir.exists():
                 import re
+
                 pattern = re.compile(r"v(\d+)_seed\.py")
                 for file in base_dir.glob("v*_seed.py"):
                     match = pattern.match(file.name)
@@ -75,7 +84,7 @@ class EvolutionaryEngine:
                         if v > latest_v:
                             latest_v = v
                             latest_path = file
-            
+
             if latest_path:
                 print(f"Loading latest base genome from {latest_path} (v{latest_v})...")
                 with open(latest_path, "r", encoding="utf-8") as f:
@@ -90,16 +99,16 @@ class EvolutionaryEngine:
                 else:
                     print("No base genome found, starting fresh (V1).")
                     start_genome = GenomeNode(node_id="V1")
-        
+
         population = [start_genome]
 
         for layer in range(iterations):
-            print(f"\n" + "="*40)
+            print("\n" + "=" * 40)
             print(f" LAYER {layer + 1} (Population: {len(population)})")
-            print("="*40)
-            
+            print("=" * 40)
+
             new_generation = []
-            
+
             for parent_idx, parent in enumerate(population):
                 print(f"\nAnalyzing Parent [{parent.node_id}]...")
                 # Always add the parent to the new generation pool (Elitism)
@@ -107,9 +116,9 @@ class EvolutionaryEngine:
 
                 train_results = self.evaluator.evaluate(parent, split="train", limit=samples_limit)
                 failures = train_results["false_positives"] + train_results["false_negatives"]
-                
+
                 if not failures:
-                    print(f"  -> Perfect on train subset. No mutations needed.")
+                    print("  -> Perfect on train subset. No mutations needed.")
                     continue
 
                 # 1. Isolate and rank failure groups
@@ -120,10 +129,10 @@ class EvolutionaryEngine:
                 # 2. Build Combinations: (0,1), (1,2), (0,2), (0,1,2)
                 if len(top_keys) >= 3:
                     combos = [
-                        (top_keys[0], top_keys[1]), 
-                        (top_keys[1], top_keys[2]), 
-                        (top_keys[0], top_keys[2]), 
-                        (top_keys[0], top_keys[1], top_keys[2])
+                        (top_keys[0], top_keys[1]),
+                        (top_keys[1], top_keys[2]),
+                        (top_keys[0], top_keys[2]),
+                        (top_keys[0], top_keys[1], top_keys[2]),
                     ]
                 elif len(top_keys) == 2:
                     combos = [(top_keys[0],), (top_keys[1],), (top_keys[0], top_keys[1])]
@@ -132,18 +141,15 @@ class EvolutionaryEngine:
 
                 # 3. Spawn Mutants
                 for combo_idx, combo in enumerate(combos):
-                    print(f"  -> Spawning Mutant {combo_idx+1} targeting: {combo}")
+                    print(f"  -> Spawning Mutant {combo_idx + 1} targeting: {combo}")
                     target_traces = self._extract_traces_for_combo(groups, combo)
-                    
+
                     # Retry logic handled inside or out
                     mutant_id = f"{parent.node_id}_L{layer}_C{combo_idx}"
                     mutant = self.mutator.mutate_individual(
-                        genome=parent,
-                        target_traces=target_traces,
-                        new_node_id=mutant_id,
-                        directive=directive
+                        genome=parent, target_traces=target_traces, new_node_id=mutant_id, directive=directive
                     )
-                    
+
                     if mutant:
                         new_generation.append(mutant)
 
@@ -157,8 +163,8 @@ class EvolutionaryEngine:
                 for mut in new_generation:
                     val_res = self.evaluator.evaluate(mut, split="val", limit=samples_limit)
                     print(f"  [{mut.node_id}] -> F1: {val_res['f1']:.4f} | Acc: {val_res['accuracy']:.4f}")
-                    scored_mutants.append((val_res['f1'], mut))
-                
+                    scored_mutants.append((val_res["f1"], mut))
+
                 # Sort by F1 Score descending and keep top N
                 scored_mutants.sort(key=lambda x: x[0], reverse=True)
                 population = [m for score, m in scored_mutants[:beam_width]]
@@ -169,6 +175,7 @@ class EvolutionaryEngine:
         print("\n=== EVOLUTION COMPLETE ===")
         print(f"Best Genome ID: {best_genome.node_id}")
         return best_genome
+
 
 if __name__ == "__main__":
     engine = EvolutionaryEngine(training_data_path=settings.default_training_data)

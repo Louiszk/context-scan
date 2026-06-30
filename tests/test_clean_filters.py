@@ -1,6 +1,7 @@
 import unittest
 from utils.sanitization import sanitize_agent_input, full_normalization
 
+
 def extract_prefixes(processed_set):
     """
     Implementation of the prefix extraction logic from clean_filters.py
@@ -10,19 +11,21 @@ def extract_prefixes(processed_set):
     sorted_processed = sorted(list(processed_set))
     for i in range(len(sorted_processed) - 1):
         s1 = sorted_processed[i]
-        s2 = sorted_processed[i+1]
+        s2 = sorted_processed[i + 1]
         common = ""
         for c1, c2 in zip(s1, s2):
             if c1 == c2:
                 common += c1
             else:
                 break
-        
+
         if not common:
             continue
 
         # Determine script and apply appropriate threshold
-        is_cjk = any(0x4E00 <= ord(c) <= 0x9FFF or 0x3040 <= ord(c) <= 0x30FF or 0xAC00 <= ord(c) <= 0xD7AF for c in common)
+        is_cjk = any(
+            0x4E00 <= ord(c) <= 0x9FFF or 0x3040 <= ord(c) <= 0x30FF or 0xAC00 <= ord(c) <= 0xD7AF for c in common
+        )
         is_semitic = any(0x0600 <= ord(c) <= 0x06FF or 0x0590 <= ord(c) <= 0x05FF for c in common)
 
         if is_semitic:
@@ -34,8 +37,9 @@ def extract_prefixes(processed_set):
 
         if len(common) >= min_len:
             prefixes.add(common)
-    
+
     return prefixes
+
 
 class TestCleanFilters(unittest.TestCase):
     def test_latin_prefix_extraction(self):
@@ -47,11 +51,11 @@ class TestCleanFilters(unittest.TestCase):
         prefixes = extract_prefixes(words)
         self.assertIn("ignore", prefixes)
         self.assertIn("ignor", prefixes)
-        
+
         # Test short common prefix < 4
         words = {"cat", "cats"}
         prefixes = extract_prefixes(words)
-        self.assertEqual(len(prefixes), 0) # "cat" is length 3
+        self.assertEqual(len(prefixes), 0)  # "cat" is length 3
 
     def test_cjk_prefix_extraction(self):
         # CJK words: should extract prefixes >= 2 chars
@@ -59,7 +63,7 @@ class TestCleanFilters(unittest.TestCase):
         words = {"攻撃", "攻撃者"}
         prefixes = extract_prefixes(words)
         self.assertIn("攻撃", prefixes)
-        
+
         # Single char prefix should be ignored
         words = {"電", "電話"}
         prefixes = extract_prefixes(words)
@@ -88,5 +92,6 @@ class TestCleanFilters(unittest.TestCase):
         self.assertIn("ignor", prefixes)
         self.assertIn("攻撃", prefixes)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

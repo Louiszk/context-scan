@@ -1,0 +1,9 @@
+[tool.ruff]
+line-length = 120
+exclude = ["data/public_patterns"]
+
+[tool.pyright]
+typeCheckingMode = "standard"
+venvPath = "."
+venv = "contextvenv"
+exclude = ["**/node_modules", "**/__pycache__", "**/.*", "data/public_patterns", "contextvenv"]
