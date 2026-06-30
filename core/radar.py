@@ -5,8 +5,10 @@ from utils.sanitization import full_normalization, sanitize_agent_input
 from data.raw_filters import WINDOW_SIZES
 
 
+from typing import Optional
+
 class SemanticRadar:
-    def __init__(self, hyperscan_rules: dict = None):
+    def __init__(self, hyperscan_rules: Optional[dict] = None):
         """
         Initializes the SemanticRadar with Hyperscan rules.
         :param hyperscan_rules: Dictionary mapping category names to lists of regex patterns.
@@ -40,6 +42,7 @@ class SemanticRadar:
 
     def save(self, file_path: str):
         """Saves the compiled database and ID mapping to a file."""
+        assert self.db is not None
         data = {"db_binary": hyperscan.dumpb(self.db), "id_to_category": self.id_to_category}
         with open(file_path, "wb") as f:
             pickle.dump(data, f)

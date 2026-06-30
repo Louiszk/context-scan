@@ -89,7 +89,7 @@ class TestEncodings(unittest.TestCase):
         ticks = r"(?:['`\^~-]|´|¨|¯|˘|˙|˚|˝|˛|ˇ|\xcc[\x80-\xbf]|\xcd[\x80-\xaf])*"
         self.assertEqual(apply_ticks_regex("abc"), f"a{ticks}b{ticks}c{ticks}")
         # Escaped character should also get ticks
-        self.assertEqual(apply_ticks_regex(r"a\$b"), f"a{ticks}\${ticks}b{ticks}")
+        self.assertEqual(apply_ticks_regex(r"a\$b"), rf"a{ticks}\${ticks}b{ticks}")
         # Control characters (non-escaped) should NOT get ticks
         self.assertEqual(apply_ticks_regex(r"a.b"), f"a{ticks}.b{ticks}")
 
@@ -97,7 +97,7 @@ class TestEncodings(unittest.TestCase):
         delim = r"[\s\./\\_\-\|\,\:]*"
         self.assertEqual(apply_spaced_regex("abc"), f"a{delim}b{delim}c")
         # Escaped character should handle delimiter
-        self.assertEqual(apply_spaced_regex(r"a\$b"), f"a{delim}\${delim}b")
+        self.assertEqual(apply_spaced_regex(r"a\$b"), rf"a{delim}\${delim}b")
         # Should not inject delimiter before quantifier or closing paren (basic check)
         self.assertEqual(apply_spaced_regex("a+"), "a+")
         self.assertEqual(apply_spaced_regex("(a)"), "(a)")

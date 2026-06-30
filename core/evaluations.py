@@ -38,6 +38,9 @@ def _evaluate_document_task(entry: Dict, radar_path: str, genome_data: Dict) -> 
     text = entry["text"]
     expected = bool(entry["label"])
 
+    assert _RADAR_CACHE is not None
+    assert _GENOME_CACHE is not None
+
     radar_result = _RADAR_CACHE.scan_document(text)
     is_malicious = _GENOME_CACHE.process_document(radar_result)
 
@@ -65,7 +68,7 @@ class Evaluator:
         self.training_data_path = training_data_path
         self.radar_path = radar_path or str(settings.get_path("radar_bin_path"))
         self.dataset = {"train": [], "val": [], "test": []}
-        self.max_workers = max_workers or os.cpu_count()
+        self.max_workers = max_workers or os.cpu_count() or 1
 
         self.train_split = train_split or settings.data_splits[0]
         self.val_split = val_split or settings.data_splits[1]

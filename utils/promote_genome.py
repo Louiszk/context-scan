@@ -26,16 +26,16 @@ def get_next_version(base_dir: Path) -> int:
 
 def promote_genome(pkl_path: str = "output/best_genome.pkl", base_genomes_dir: str = "base_genomes"):
     """Unpickles the genome and saves it as a new seed version."""
-    pkl_path = Path(pkl_path)
+    pkl_file = Path(pkl_path)
     base_dir = Path(base_genomes_dir)
 
-    if not pkl_path.exists():
-        print(f"Error: {pkl_path} not found.")
+    if not pkl_file.exists():
+        print(f"Error: {pkl_file} not found.")
         return
 
-    print(f"Loading genome from {pkl_path}...")
+    print(f"Loading genome from {pkl_file}...")
     try:
-        with open(pkl_path, "rb") as f:
+        with open(pkl_file, "rb") as f:
             genome = pickle.load(f)
     except Exception as e:
         print(f"Error loading pickle: {e}")

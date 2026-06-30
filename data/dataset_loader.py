@@ -15,6 +15,8 @@ def load_injection_datasets():
             dataset = load_dataset(repo)
             for split in dataset.keys():
                 for entry in dataset[split]:
+                    if not isinstance(entry, dict):
+                        continue
                     text = entry.get("text")
                     if text is None:
                         text = entry.get("prompt")

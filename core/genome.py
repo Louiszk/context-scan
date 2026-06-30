@@ -7,9 +7,9 @@ class GenomeNode:
         self,
         node_id: str,
         parent: Optional["GenomeNode"] = None,
-        local_routes: dict = None,
-        local_functions: dict = None,
-        local_imports: list = None,
+        local_routes: Optional[dict] = None,
+        local_functions: Optional[dict] = None,
+        local_imports: Optional[list] = None,
     ):
         """
         Initializes a node in the evolutionary tree.
@@ -74,7 +74,7 @@ class GenomeNode:
                     {"type": "compilation_error", "function": func_name, "error": str(e), "code": func_code}
                 )
 
-    def get_route(self, trigger: str) -> str:
+    def get_route(self, trigger: str) -> Optional[str]:
         """Recursively resolves a route mapping."""
         if trigger in self.local_routes:
             return self.local_routes[trigger]

@@ -42,9 +42,10 @@ def parse_llm_code_blocks(llm_response: str) -> Tuple[Dict[str, str], Dict[str, 
                         if isinstance(target, ast.Name) and target.id == "routes":
                             if isinstance(node.value, ast.Dict):
                                 for key, value in zip(node.value.keys, node.value.values):
-                                    k = key.s if hasattr(key, "s") else key.value
-                                    v = value.s if hasattr(value, "s") else value.value
-                                    new_routes[k] = v
+                                    k = getattr(key, "s", getattr(key, "value", None))
+                                    v = getattr(value, "s", getattr(value, "value", None))
+                                    if k is not None and v is not None:
+                                        new_routes[k] = v
                 elif isinstance(node, ast.FunctionDef):
                     func_name = node.name
                     start_line = node.lineno - 1

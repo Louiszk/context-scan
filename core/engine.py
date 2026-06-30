@@ -1,6 +1,6 @@
 import os
 import sys
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Union
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
@@ -12,7 +12,7 @@ from core.mutation import LLMMutator
 
 
 class EvolutionaryEngine:
-    def __init__(self, training_data_path: str, radar_path: Optional[str] = None):
+    def __init__(self, training_data_path: Union[str, List[str]], radar_path: Optional[str] = None):
         self.evaluator = Evaluator(training_data_path, radar_path)
         self.mutator = LLMMutator()
 
