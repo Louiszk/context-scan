@@ -7,6 +7,7 @@ from data.raw_filters import WINDOW_SIZES
 
 from typing import Optional
 
+
 class SemanticRadar:
     def __init__(self, hyperscan_rules: Optional[dict] = None):
         """
