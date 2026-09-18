@@ -1,4 +1,5 @@
 import unittest
+
 from utils.markdown_parser import parse_llm_code_blocks
 
 
@@ -33,7 +34,7 @@ class TestMarkdownParser(unittest.TestCase):
             routes["ignoring"] = my_expert
             ```
         """
-        routes, funcs, imports = parse_llm_code_blocks(llm_response)
+        routes, funcs, _ = parse_llm_code_blocks(llm_response)
         self.assertEqual(routes, {"ignoring": "my_expert"})
         self.assertIn("my_expert", funcs)
         # Verify it's dedented (first line should start with 'def')
@@ -49,7 +50,7 @@ class TestMarkdownParser(unittest.TestCase):
             return helper(text) == "stop"
         ```
         """
-        routes, funcs, imports = parse_llm_code_blocks(llm_response)
+        _, funcs, _ = parse_llm_code_blocks(llm_response)
         self.assertIn("helper", funcs)
         self.assertIn("main_expert", funcs)
 
@@ -69,8 +70,27 @@ class TestMarkdownParser(unittest.TestCase):
         routes["r2"] = f2
         ```
         """
-        routes, funcs, imports = parse_llm_code_blocks(llm_response)
+        routes, _, _ = parse_llm_code_blocks(llm_response)
         self.assertEqual(routes, {"r1": "f1", "r2": "f2"})
+
+    def test_py_language_tag(self):
+        llm_response = """
+        ```py
+        routes["tag_test"] = my_expert
+        ```
+        """
+        routes, _, _ = parse_llm_code_blocks(llm_response)
+        self.assertEqual(routes, {"tag_test": "my_expert"})
+
+    def test_quoted_route_targets(self):
+        llm_response = """
+        ```python
+        routes['single_quote'] = 'expert_one'
+        routes["double_quote"] = "expert_two"
+        ```
+        """
+        routes, _, _ = parse_llm_code_blocks(llm_response)
+        self.assertEqual(routes, {"single_quote": "expert_one", "double_quote": "expert_two"})
 
 
 if __name__ == "__main__":

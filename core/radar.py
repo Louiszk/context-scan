@@ -1,15 +1,13 @@
-import hyperscan
 import dill as pickle
+import hyperscan
+
 from core.config import settings
-from utils.sanitization import full_normalization, sanitize_agent_input
 from data.raw_filters import WINDOW_SIZES
-
-
-from typing import Optional
+from utils.sanitization import full_normalization, sanitize_agent_input
 
 
 class SemanticRadar:
-    def __init__(self, hyperscan_rules: Optional[dict] = None):
+    def __init__(self, hyperscan_rules: dict | None = None):
         """
         Initializes the SemanticRadar with Hyperscan rules.
         :param hyperscan_rules: Dictionary mapping category names to lists of regex patterns.
@@ -28,15 +26,13 @@ class SemanticRadar:
         ids = []
         flags = []
 
-        current_id = 0
-        for category, regexes in hyperscan_rules.items():
+        for current_id, (category, regexes) in enumerate(hyperscan_rules.items()):
             self.id_to_category[current_id] = category
             for regex in regexes:
                 patterns.append(regex.encode("utf-8"))
                 ids.append(current_id)
                 # Use HS_FLAG_SOM_LEFTMOST to get 'from' index
                 flags.append(hyperscan.HS_FLAG_CASELESS | hyperscan.HS_FLAG_SOM_LEFTMOST)
-            current_id += 1
 
         self.db = hyperscan.Database(mode=hyperscan.HS_MODE_BLOCK)
         self.db.compile(expressions=patterns, ids=ids, elements=len(patterns), flags=flags)
@@ -81,7 +77,6 @@ class SemanticRadar:
             if category:
                 hits.append({"start": from_pos, "end": to_pos, "category": category})
                 all_triggers.add(category)
-            return None
 
         scratch = hyperscan.Scratch(self.db)
         self.db.scan(text_bytes, callback, scratch=scratch)

@@ -1,6 +1,7 @@
+import json
 import os
 import sys
-import json
+
 import dill as pickle
 from dotenv import load_dotenv
 
@@ -10,9 +11,9 @@ sys.path.append("/sandbox/workspace")
 # Load environment variables from .env inside the sandbox
 load_dotenv("/sandbox/workspace/.env")
 
-from core.config import settings  # noqa: E402
-from core.engine import EvolutionaryEngine  # noqa: E402
-from core.genome import GenomeNode  # noqa: E402
+from core.config import settings
+from core.engine import EvolutionaryEngine
+from core.genome import GenomeNode
 
 
 def main():

@@ -1,26 +1,33 @@
-import os
-import shutil
-import dill as pickle
 import argparse
+import os
 import pprint
-from pathlib import Path
+import shutil
 
 # Add root to sys.path to allow imports from core and data
 import sys
+from pathlib import Path
+
+import dill as pickle
 
 ROOT_DIR = Path(__file__).resolve().parent
 sys.path.append(str(ROOT_DIR))
 
-from core.genome import GenomeNode  # noqa: E402
-from core.config import settings  # noqa: E402
-from data.raw_filters import WINDOW_SIZES  # noqa: E402
+from core.config import settings
+from core.genome import GenomeNode
+from data.raw_filters import WINDOW_SIZES
 
 FIREWALL_TEMPLATE = """
 import os
+import sys
 import re
 import math
 import hyperscan
 import json
+
+_CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+if _CURRENT_DIR not in sys.path:
+    sys.path.insert(0, _CURRENT_DIR)
+
 from sanitization import full_normalization, sanitize_agent_input
 
 # --- Configuration ---
@@ -228,6 +235,9 @@ def main():
 
     with open(out_path / "firewall.py", "w", encoding="utf-8") as f:
         f.write(firewall_content.strip())
+
+    with open(out_path / "__init__.py", "w", encoding="utf-8") as f:
+        f.write("from .firewall import predict\n\n__all__ = ['predict']\n")
 
     print(f"Export complete! Model saved to: {out_path}")
 

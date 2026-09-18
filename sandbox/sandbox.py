@@ -1,7 +1,8 @@
-import os
 import codecs
 import glob
-from llm_sandbox import create_session, SandboxBackend
+import os
+
+from llm_sandbox import SandboxBackend, create_session
 
 
 class StreamingSandboxSession:
@@ -131,7 +132,7 @@ class StreamingSandboxSession:
         try:
             self.session.copy_to_runtime(src, dest)
             return True
-        except Exception:
+        except Exception:  # noqa: S110
             pass
 
         return False
@@ -255,14 +256,12 @@ def check_podman_running():
         from podman import PodmanClient
 
         client = PodmanClient()
-        if client.info()["host"]["remoteSocket"] is None:
-            return False
-        return True
+        return client.info()["host"]["remoteSocket"] is not None
     except (ImportError, Exception):
         return False
 
 
-def setup_sandbox_environment(session, reinstall=False, include_tests=False):
+def setup_sandbox_environment(session, reinstall=False, include_tests=False, max_samples=1000):
     """Set up the sandbox environment with required files and dependencies."""
     if session.verbose:
         print("Setting up sandbox environment for ContextScan...")
@@ -278,9 +277,8 @@ def setup_sandbox_environment(session, reinstall=False, include_tests=False):
     if include_tests:
         session.execute_command("mkdir -p /sandbox/workspace/tests")
 
-    # Copy project specification and sandbox scripts
+    # Copy sandbox scripts and environment configuration
     required_files = [
-        ("PROJECT_SPEC.md", "/sandbox/workspace/PROJECT_SPEC.md"),
         ("sandbox/orchestrator.py", "/sandbox/workspace/sandbox/orchestrator.py"),
         (".env", "/sandbox/workspace/.env"),
         ("requirements-sandbox.txt", "/sandbox/workspace/requirements.txt"),
@@ -303,29 +301,31 @@ def setup_sandbox_environment(session, reinstall=False, include_tests=False):
 
     # Copy training data ONLY if not in test-only mode
     if not include_tests:
-        # Subsample training_data.json to 1000 random samples to save sandbox memory
-        import json
-        import random
-        import tempfile
-
         train_data_path = "data/training_data.json"
         if os.path.exists(train_data_path):
-            try:
-                with open(train_data_path, "r", encoding="utf-8") as f:
-                    full_data = json.load(f)
+            if max_samples is not None and max_samples > 0:
+                import json
+                import random
+                import tempfile
 
-                sample_size = min(len(full_data), 1000)
-                sampled_data = random.sample(full_data, sample_size)
+                try:
+                    with open(train_data_path, "r", encoding="utf-8") as f:
+                        full_data = json.load(f)
 
-                with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False, encoding="utf-8") as tmp:
-                    json.dump(sampled_data, tmp, ensure_ascii=False, indent=4)
-                    tmp_path = tmp.name
+                    sample_size = min(len(full_data), max_samples)
+                    sampled_data = random.sample(full_data, sample_size)
 
-                print(f"Subsampled {sample_size} records from training dataset for sandbox...")
-                session.copy_to_runtime(tmp_path, "/sandbox/workspace/data/training_data.json")
-                os.unlink(tmp_path)
-            except Exception as e:
-                print(f"Warning: Failed to subsample training data: {e}. Attempting full copy.")
+                    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False, encoding="utf-8") as tmp:
+                        json.dump(sampled_data, tmp, ensure_ascii=False, indent=4)
+                        tmp_path = tmp.name
+
+                    print(f"Subsampled {sample_size} records from training dataset for sandbox...")
+                    session.copy_to_runtime(tmp_path, "/sandbox/workspace/data/training_data.json")
+                    os.unlink(tmp_path)
+                except Exception as e:
+                    print(f"Warning: Failed to subsample training data: {e}. Attempting full copy.")
+                    session.copy_to_runtime(train_data_path, "/sandbox/workspace/data/training_data.json")
+            else:
                 session.copy_to_runtime(train_data_path, "/sandbox/workspace/data/training_data.json")
 
     session.copy_dir_to_runtime(src_dir="base_genomes", dest_dir="/sandbox/workspace/base_genomes", pattern="*.py")

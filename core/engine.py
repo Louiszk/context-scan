@@ -1,6 +1,5 @@
 import os
 import sys
-from typing import List, Dict, Optional, Union
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
@@ -12,11 +11,11 @@ from core.mutation import LLMMutator
 
 
 class EvolutionaryEngine:
-    def __init__(self, training_data_path: Union[str, List[str]], radar_path: Optional[str] = None):
+    def __init__(self, training_data_path: str | list[str], radar_path: str | None = None):
         self.evaluator = Evaluator(training_data_path, radar_path)
         self.mutator = LLMMutator()
 
-    def _group_failures(self, failures: List[Dict]) -> Dict[str, List[Dict]]:
+    def _group_failures(self, failures: list[dict]) -> dict[str, list[dict]]:
         """Groups failure traces by their primary Radar trigger."""
         groups = {}
         for f in failures:
@@ -34,7 +33,7 @@ class EvolutionaryEngine:
             groups[key].append(f)
         return groups
 
-    def _extract_traces_for_combo(self, groups: Dict[str, List[Dict]], combo_keys: tuple) -> List[Dict]:
+    def _extract_traces_for_combo(self, groups: dict[str, list[dict]], combo_keys: tuple) -> list[dict]:
         """Extracts and formats traces for a specific combination of failure groups."""
         target_traces = []
         for key in combo_keys:
@@ -56,11 +55,11 @@ class EvolutionaryEngine:
 
     def run_beam_evolution(
         self,
-        iterations: Optional[int] = None,
-        samples_limit: Optional[int] = None,
-        beam_width: Optional[int] = None,
-        start_genome: Optional[GenomeNode] = None,
-        directive: Optional[str] = None,
+        iterations: int | None = None,
+        samples_limit: int | None = None,
+        beam_width: int | None = None,
+        start_genome: GenomeNode | None = None,
+        directive: str | None = None,
     ) -> GenomeNode:
 
         # Use centralized defaults if not provided
@@ -154,21 +153,16 @@ class EvolutionaryEngine:
                         new_generation.append(mutant)
 
             # 4. Survival of the Fittest
-            if layer == 0:
-                print("\n--- Layer 1 Complete: All initial mutants survive ---")
-                population = new_generation
-            else:
-                print(f"\n--- Layer {layer + 1} Complete: Evaluating {len(new_generation)} mutants ---")
-                scored_mutants = []
-                for mut in new_generation:
-                    val_res = self.evaluator.evaluate(mut, split="val", limit=samples_limit)
-                    print(f"  [{mut.node_id}] -> F1: {val_res['f1']:.4f} | Acc: {val_res['accuracy']:.4f}")
-                    scored_mutants.append((val_res["f1"], mut))
+            print(f"\n--- Layer {layer + 1} Complete: Evaluating {len(new_generation)} candidates ---")
+            scored_mutants = []
+            for mut in new_generation:
+                val_res = self.evaluator.evaluate(mut, split="val", limit=samples_limit)
+                print(f"  [{mut.node_id}] -> F1: {val_res['f1']:.4f} | Acc: {val_res['accuracy']:.4f}")
+                scored_mutants.append((val_res["f1"], mut))
 
-                # Sort by F1 Score descending and keep top N
-                scored_mutants.sort(key=lambda x: x[0], reverse=True)
-                population = [m for score, m in scored_mutants[:beam_width]]
-                print(f"--- Culling complete. Top {len(population)} advance to next layer ---")
+            scored_mutants.sort(key=lambda x: x[0], reverse=True)
+            population = [m for score, m in scored_mutants[:beam_width]]
+            print(f"--- Culling complete. Top {len(population)} advance to next layer ---")
 
         # Final Evaluation of the absolute best
         best_genome = population[0]

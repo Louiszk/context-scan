@@ -1,17 +1,17 @@
-import os
-import sys
-import json
-import random
 import concurrent.futures
-from typing import List, Dict, Any, Optional, Union
-from pathlib import Path
+import json
+import os
+import random
+import sys
 from functools import partial
+from pathlib import Path
+from typing import Any
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from core.config import settings
-from core.radar import SemanticRadar
 from core.genome import GenomeNode
+from core.radar import SemanticRadar
 
 # Global caches for multiprocessing workers
 _RADAR_CACHE = None
@@ -19,7 +19,7 @@ _GENOME_CACHE = None
 _GENOME_ID_CACHE = None
 
 
-def _evaluate_document_task(entry: Dict, radar_path: str, genome_data: Dict) -> Dict:
+def _evaluate_document_task(entry: dict, radar_path: str, genome_data: dict) -> dict:
     """Worker function for parallel evaluation."""
     global _RADAR_CACHE, _GENOME_CACHE, _GENOME_ID_CACHE
 
@@ -59,11 +59,11 @@ def _evaluate_document_task(entry: Dict, radar_path: str, genome_data: Dict) -> 
 class Evaluator:
     def __init__(
         self,
-        training_data_path: Union[str, List[str]],
-        radar_path: Optional[str] = None,
-        train_split: Optional[float] = None,
-        val_split: Optional[float] = None,
-        max_workers: Optional[int] = None,
+        training_data_path: str | list[str],
+        radar_path: str | None = None,
+        train_split: float | None = None,
+        val_split: float | None = None,
+        max_workers: int | None = None,
     ):
         self.training_data_path = training_data_path
         self.radar_path = radar_path or str(settings.get_path("radar_bin_path"))
@@ -102,7 +102,13 @@ class Evaluator:
 
         hasher = hashlib.md5()
         base_dir = Path(__file__).resolve().parent.parent
-        files_to_hash = [base_dir / "utils" / "build_hyperscan.py", base_dir / "data" / "raw_filters.py"]
+        files_to_hash = [
+            base_dir / "utils" / "build_hyperscan.py",
+            base_dir / "data" / "raw_filters.py",
+            base_dir / "utils" / "encodings.py",
+            base_dir / "utils" / "sanitization.py",
+            base_dir / "utils" / "homoglyph_map.json",
+        ]
 
         for fpath in files_to_hash:
             if fpath.exists():
@@ -134,7 +140,7 @@ class Evaluator:
                 f.write(current_hash)
             print(f"Radar cached to {self.radar_path}")
 
-    def evaluate(self, genome: GenomeNode, split: str = "val", limit: Optional[int] = None) -> Dict[str, Any]:
+    def evaluate(self, genome: GenomeNode, split: str = "val", limit: int | None = None) -> dict[str, Any]:
         data_to_eval = self.dataset.get(split, [])
         if limit:
             data_to_eval = data_to_eval[:limit]

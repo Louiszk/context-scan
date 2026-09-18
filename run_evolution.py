@@ -1,8 +1,9 @@
-import os
-import sys
 import argparse
 import datetime
+import os
 import shlex
+import sys
+
 from core.config import settings
 from sandbox.sandbox import StreamingSandboxSession, setup_sandbox_environment
 
@@ -41,7 +42,7 @@ def main():
     args = parser.parse_args()
 
     # Generate a run ID
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d_%H%M%S")
 
     print(f"--- Initializing {args.container} sandbox ---")
 
@@ -86,7 +87,7 @@ def main():
 
             # Prepend config vars to the command and wrap it in sh -c
             env_prefix = " ".join([f"{k}={shlex.quote(v)}" for k, v in env_vars.items()])
-            full_command = f'sh -c "{env_prefix} {command}"'
+            full_command = f"sh -c {shlex.quote(f'{env_prefix} {command}')}"
 
             print(f"\n--- Executing Evolutionary Engine (Run ID: {timestamp}) ---")
 

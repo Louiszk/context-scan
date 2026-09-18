@@ -1,10 +1,9 @@
-import re
 import ast
+import re
 import textwrap
-from typing import Dict, Tuple, List
 
 
-def parse_llm_code_blocks(llm_response: str) -> Tuple[Dict[str, str], Dict[str, str], List[str]]:
+def parse_llm_code_blocks(llm_response: str) -> tuple[dict[str, str], dict[str, str], list[str]]:
     """
     Extracts Python code blocks from an LLM response and parses out
     route assignments, function definitions, and import statements.
@@ -18,10 +17,10 @@ def parse_llm_code_blocks(llm_response: str) -> Tuple[Dict[str, str], Dict[str, 
 
     # Extract all code blocks.
     code_blocks = re.findall(
-        r"^\s*```(?:python)?\s*\n(.*?)\n\s*```", llm_response, re.DOTALL | re.IGNORECASE | re.MULTILINE
+        r"^\s*```(?:python|py)?\s*\n(.*?)\n\s*```", llm_response, re.DOTALL | re.IGNORECASE | re.MULTILINE
     )
 
-    route_pattern = re.compile(r'routes\[[\'"]([^\'"]+)[\'"]\]\s*=\s*([a-zA-Z0-9_]+)')
+    route_pattern = re.compile(r'routes\[[\'"]([^\'"]+)[\'"]\]\s*=\s*[\'"]?([a-zA-Z0-9_]+)[\'"]?')
     import_pattern = re.compile(r"^\s*(import\s+.+|from\s+.+\s+import\s+.+)", re.MULTILINE)
 
     for block in code_blocks:
@@ -39,13 +38,12 @@ def parse_llm_code_blocks(llm_response: str) -> Tuple[Dict[str, str], Dict[str, 
                     new_imports.append(import_source)
                 elif isinstance(node, ast.Assign):
                     for target in node.targets:
-                        if isinstance(target, ast.Name) and target.id == "routes":
-                            if isinstance(node.value, ast.Dict):
-                                for key, value in zip(node.value.keys, node.value.values):
-                                    k = getattr(key, "s", getattr(key, "value", None))
-                                    v = getattr(value, "s", getattr(value, "value", None))
-                                    if k is not None and v is not None:
-                                        new_routes[k] = v
+                        if isinstance(target, ast.Name) and target.id == "routes" and isinstance(node.value, ast.Dict):
+                            for key, value in zip(node.value.keys, node.value.values):
+                                k = getattr(key, "s", getattr(key, "value", None))
+                                v = getattr(value, "s", getattr(value, "value", None))
+                                if k is not None and v is not None:
+                                    new_routes[k] = v
                 elif isinstance(node, ast.FunctionDef):
                     func_name = node.name
                     start_line = node.lineno - 1

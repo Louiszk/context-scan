@@ -70,10 +70,7 @@ def expert_code_execution(text, triggers, all_triggers):
         return True
 
     # Execution intent
-    if "executing" in trigger_names and any(t in trigger_names for t in dangerous_combos):
-        return True
-
-    return False
+    return bool("executing" in trigger_names and any(t in trigger_names for t in dangerous_combos))
 
 
 def expert_data_security(text, triggers, all_triggers):
@@ -89,14 +86,16 @@ def expert_data_security(text, triggers, all_triggers):
     if len(secret_hits) >= 2:
         return True
 
-    if any(t in trigger_names for t in secrets):
-        if any(p in text.upper() for p in ["BEGIN PRIVATE", "BEGIN RSA", "API_KEY", "PASSWORD=", "SECRET="]):
-            return True
+    if any(t in trigger_names for t in secrets) and any(
+        p in text.upper() for p in ["BEGIN PRIVATE", "BEGIN RSA", "API_KEY", "PASSWORD=", "SECRET="]
+    ):
+        return True
 
     # 'key' alone is too ambiguous and should not trigger on ordinary language or code identifiers.
-    if "key" in trigger_names:
-        if any(t in trigger_names for t in {"secret", "password", "credential_access", "data_exfiltration"}):
-            return True
+    if "key" in trigger_names and any(
+        t in trigger_names for t in ("secret", "password", "credential_access", "data_exfiltration")
+    ):
+        return True
 
     # Discovery only when paired with explicit collection/exfiltration intent
     if (
@@ -122,19 +121,18 @@ def expert_data_security(text, triggers, all_triggers):
 
         # Generic prose often contains words like "system", "start", "begin", "precedent", "updates", etc.
         # Only flag discovery when the slice looks like an actual system query or command context.
-        if re.search(
-            r"(?i)\b(list|show|print|query|dump|get|fetch|enumerate|scan|check)\b.*\b(system|host|hostname|users?|process|env|registry|files?)\b",
-            text,
-        ):
-            return True
-
-        return False
+        return bool(
+            re.search(
+                r"(?i)\b(list|show|print|query|dump|get|fetch|enumerate|scan|check)\b.*\b(system|host|hostname|users?|process|env|registry|files?)\b",
+                text,
+            )
+        )
 
     # Very conservative handling for standalone "key" when it is actually used in ordinary prose/code.
-    if "key" in trigger_names:
-        # If there is no adjacent credential/security context, do not elevate.
-        if not any(t in trigger_names for t in {"secret", "password", "credential_access", "data_exfiltration"}):
-            return False
+    if "key" in trigger_names and not any(
+        t in trigger_names for t in ("secret", "password", "credential_access", "data_exfiltration")
+    ):
+        return False
 
     return False
 
@@ -173,10 +171,7 @@ def expert_instruction_override(text, triggers, all_triggers):
                 return True
 
     # Flag only when it reads like a directive to alter behavior.
-    if has_override and "instructing" in trigger_names:
-        return True
-
-    return False
+    return bool(has_override and "instructing" in trigger_names)
 
 
 def expert_payload_obfuscation(text, triggers, all_triggers):
@@ -203,9 +198,11 @@ def expert_payload_obfuscation(text, triggers, all_triggers):
         entropy = get_entropy(text)
 
         # Only treat very high entropy as suspicious when paired with encoding-related signals
-        if any(t in {"base64_blob", "cipher", "encoding_names", "obfuscation_patterns"} for t in trigger_names):
-            if entropy > 4.3:
-                return True
+        if (
+            any(t in {"base64_blob", "cipher", "encoding_names", "obfuscation_patterns"} for t in trigger_names)
+            and entropy > 4.3
+        ):
+            return True
 
     # Structural anomalies should only be used when the slice itself is strongly malformed,
     # not merely because it contains unusual punctuation or stylized wording.
@@ -225,11 +222,8 @@ def expert_payload_obfuscation(text, triggers, all_triggers):
                 return True
 
     # Multi-encoding attempt
-    encoding_count = sum(1 for t in {"cipher", "steganography", "encoding_names"} if t in trigger_names)
-    if encoding_count >= 2:
-        return True
-
-    return False
+    encoding_count = sum(1 for t in ("cipher", "steganography", "encoding_names") if t in trigger_names)
+    return encoding_count >= 2
 
 
 def expert_roleplay_simulation(text, triggers, all_triggers):
@@ -257,15 +251,10 @@ def expert_roleplay_simulation(text, triggers, all_triggers):
             return True
 
     # Simulation only matters when coupled with instruction/authority framing
-    if "simulation" in trigger_names and (
-        "authoritative" in trigger_names or "system" in trigger_names or "instructing" in trigger_names
-    ):
-        return True
-
-    if "simulation" in trigger_names and "instructing" in trigger_names:
-        return True
-
-    return False
+    return bool(
+        "simulation" in trigger_names
+        and ("authoritative" in trigger_names or "system" in trigger_names or "instructing" in trigger_names)
+    )
 
 
 def expert_structural_analysis(text, triggers, all_triggers):

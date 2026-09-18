@@ -1,5 +1,6 @@
 import unittest
-from utils.sanitization import sanitize_agent_input, full_normalization
+
+from utils.sanitization import full_normalization, sanitize_agent_input
 
 
 def extract_prefixes(processed_set):
@@ -8,7 +9,7 @@ def extract_prefixes(processed_set):
     to allow unit testing without running the full script.
     """
     prefixes = set()
-    sorted_processed = sorted(list(processed_set))
+    sorted_processed = sorted(processed_set)
     for i in range(len(sorted_processed) - 1):
         s1 = sorted_processed[i]
         s2 = sorted_processed[i + 1]

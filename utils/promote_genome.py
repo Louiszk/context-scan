@@ -1,13 +1,14 @@
 import re
 import sys
-import dill as pickle
 from pathlib import Path
+
+import dill as pickle
 
 # Add project root to sys.path to ensure core module can be loaded
 project_root = Path(__file__).parent.parent.absolute()
 sys.path.append(str(project_root))
 
-from core.genome import GenomeNode  # noqa: E402
+from core.genome import GenomeNode
 
 
 def get_next_version(base_dir: Path) -> int:
