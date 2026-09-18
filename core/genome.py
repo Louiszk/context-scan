@@ -7,9 +7,9 @@ class GenomeNode:
         self,
         node_id: str,
         parent: Optional["GenomeNode"] = None,
-        local_routes: Optional[dict] = None,
-        local_functions: Optional[dict] = None,
-        local_imports: Optional[list] = None,
+        local_routes: dict | None = None,
+        local_functions: dict | None = None,
+        local_imports: list | None = None,
     ):
         """
         Initializes a node in the evolutionary tree.
@@ -52,13 +52,13 @@ class GenomeNode:
         # 1. Resolve Imports
         for import_stmt in self.local_imports:
             try:
-                exec(import_stmt, self.namespace)
+                exec(import_stmt, self.namespace)  # noqa: S102
             except Exception as e:
                 self.trace_log.append(
                     {
                         "type": "compilation_error",
                         "trigger": "import",
-                        "error": f"Import failed: {import_stmt} -> {str(e)}",
+                        "error": f"Import failed: {import_stmt} -> {e!s}",
                         "code": import_stmt,
                     }
                 )
@@ -68,13 +68,13 @@ class GenomeNode:
         for func_name, func_code in self.local_functions.items():
             try:
                 # exec compiles the string and assigns the function to self.namespace[func_name]
-                exec(func_code, self.namespace)
+                exec(func_code, self.namespace)  # noqa: S102
             except Exception as e:
                 self.trace_log.append(
                     {"type": "compilation_error", "function": func_name, "error": str(e), "code": func_code}
                 )
 
-    def get_route(self, trigger: str) -> Optional[str]:
+    def get_route(self, trigger: str) -> str | None:
         """Recursively resolves a route mapping."""
         if trigger in self.local_routes:
             return self.local_routes[trigger]
@@ -159,8 +159,7 @@ class GenomeNode:
 
         if self.local_imports:
             source_parts.append("# --- Imports ---")
-            for imp in sorted(self.local_imports):
-                source_parts.append(imp)
+            source_parts.extend(sorted(self.local_imports))
             source_parts.append("")
 
         if self.local_routes:
@@ -203,16 +202,13 @@ class GenomeNode:
             # Look for routes = { ... }
             elif isinstance(node, ast.Assign):
                 for target in node.targets:
-                    if isinstance(target, ast.Name) and target.id == "routes":
-                        if isinstance(node.value, ast.Dict):
-                            for key, value in zip(node.value.keys, node.value.values):
-                                if isinstance(key, (ast.Str, ast.Constant)) and isinstance(
-                                    value, (ast.Str, ast.Constant)
-                                ):
-                                    # Handle both older ast.Str and newer ast.Constant
-                                    k = key.s if hasattr(key, "s") else key.value
-                                    v = value.s if hasattr(value, "s") else value.value
-                                    local_routes[k] = v
+                    if isinstance(target, ast.Name) and target.id == "routes" and isinstance(node.value, ast.Dict):
+                        for key, value in zip(node.value.keys, node.value.values):
+                            if isinstance(key, (ast.Str, ast.Constant)) and isinstance(value, (ast.Str, ast.Constant)):
+                                # Handle both older ast.Str and newer ast.Constant
+                                k = key.s if hasattr(key, "s") else key.value
+                                v = value.s if hasattr(value, "s") else value.value
+                                local_routes[k] = v
 
             # Look for function definitions
             elif isinstance(node, ast.FunctionDef):

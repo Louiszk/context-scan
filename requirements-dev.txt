@@ -2,8 +2,8 @@
 -r requirements-sandbox.txt
 
 # Development Tools
-pyright
-pytest
-ruff
+pyright==1.1.414
+pytest==9.1.1
+ruff==0.16.7
 datasets
 podman

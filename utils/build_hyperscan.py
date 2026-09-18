@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 from pathlib import Path
 
 # Add project root to sys.path
@@ -7,18 +7,18 @@ root_dir = Path(__file__).resolve().parent.parent
 if str(root_dir) not in sys.path:
     sys.path.append(str(root_dir))
 
-from utils.sanitization import sanitize_agent_input, full_normalization  # noqa: E402
-from utils.encodings import (  # noqa: E402
-    encode_string,
-    apply_leet_regex,
+from core.radar import SemanticRadar
+from data.raw_filters import ANCHORS, LANGUAGE_FILTERS, SUSPICIOUS_FILTERS, SUSPICIOUS_REGEXES
+from utils.encodings import (
+    apply_doubled_regex,
     apply_greek_regex,
+    apply_leet_regex,
     apply_qwerty_regex,
     apply_spaced_regex,
-    apply_doubled_regex,
     apply_ticks_regex,
+    encode_string,
 )
-from data.raw_filters import LANGUAGE_FILTERS, SUSPICIOUS_FILTERS, SUSPICIOUS_REGEXES, ANCHORS  # noqa: E402
-from core.radar import SemanticRadar  # noqa: E402
+from utils.sanitization import full_normalization, sanitize_agent_input
 
 
 class TrieNode:
@@ -75,7 +75,7 @@ def compile_lists_to_regex_tries(raw_filters: dict) -> dict:
                 processed.add(normalized)
 
         root = TrieNode()
-        for word in sorted(list(processed)):
+        for word in sorted(processed):
             insert_into_trie(root, word)
 
         category_patterns = []
@@ -163,7 +163,7 @@ def build_hyperscan_rules() -> dict:
             if encoded_group:
                 final_patterns.update(encoded_group)
 
-        hyperscan_rules[category] = sorted(list(final_patterns))
+        hyperscan_rules[category] = sorted(final_patterns)
         print(f"  - Category '{category}': Generated {len(hyperscan_rules[category])} highly-optimized DFAs.")
 
     # --- PHASE 3: Raw Regex Filters (Suspicious & Anchors) ---
@@ -179,7 +179,7 @@ def build_hyperscan_rules() -> dict:
             else:
                 final_patterns.add(regex)
 
-        hyperscan_rules[category] = sorted(list(final_patterns))
+        hyperscan_rules[category] = sorted(final_patterns)
         amount = len(hyperscan_rules[category])
         plural = "es" if amount > 1 else ""
         print(f"  - Raw/Anchor Category '{category}': Added {amount} complex regex{plural}.")
@@ -199,7 +199,9 @@ def build_and_save_radar(output_path: str = "data/radar.bin"):
     radar.build(rules)
 
     print(f"Saving radar to {output_path}...")
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    parent_dir = os.path.dirname(output_path)
+    if parent_dir:
+        os.makedirs(parent_dir, exist_ok=True)
     radar.save(output_path)
     print("Done!")
 

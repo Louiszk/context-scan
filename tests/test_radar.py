@@ -1,11 +1,12 @@
 import unittest
+
 from core.radar import SemanticRadar
 from data.raw_filters import (
+    ANCHORS,
+    FILTER_DESCRIPTIONS,
     LANGUAGE_FILTERS,
     SUSPICIOUS_FILTERS,
     SUSPICIOUS_REGEXES,
-    ANCHORS,
-    FILTER_DESCRIPTIONS,
     WINDOW_SIZES,
 )
 

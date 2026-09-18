@@ -1,5 +1,6 @@
-import sys
 import argparse
+import sys
+
 from sandbox.sandbox import StreamingSandboxSession, setup_sandbox_environment
 
 

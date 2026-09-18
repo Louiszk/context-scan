@@ -91,10 +91,7 @@ def expert_instruction_override(text, triggers, all_triggers):
                     return True
 
     # Check for instruction triggers combined with override actions
-    if has_override and ("instructing" in trigger_names or "persona" in trigger_names):
-        return True
-
-    return False
+    return bool(has_override and ("instructing" in trigger_names or "persona" in trigger_names))
 
 
 def expert_roleplay_simulation(text, triggers, all_triggers):
@@ -112,10 +109,7 @@ def expert_roleplay_simulation(text, triggers, all_triggers):
         return True
 
     # Hypothetical/Simulation intent check using triggers instead of language-specific phrases
-    if "simulation" in trigger_names and "instructing" in trigger_names:
-        return True
-
-    return False
+    return bool("simulation" in trigger_names and "instructing" in trigger_names)
 
 
 def expert_code_execution(text, triggers, all_triggers):
@@ -136,10 +130,7 @@ def expert_code_execution(text, triggers, all_triggers):
         return True
 
     # Execution intent
-    if "executing" in trigger_names and any(t in trigger_names for t in dangerous_combos):
-        return True
-
-    return False
+    return bool("executing" in trigger_names and any(t in trigger_names for t in dangerous_combos))
 
 
 def expert_payload_obfuscation(text, triggers, all_triggers):
@@ -166,9 +157,11 @@ def expert_payload_obfuscation(text, triggers, all_triggers):
         if entropy > 4.6:
             return True  # Very likely random/encoded
 
-        if any(t in {"base64_blob", "cipher", "encoding_names", "obfuscation_patterns"} for t in trigger_names):
-            if entropy > 3.9:
-                return True
+        if (
+            any(t in {"base64_blob", "cipher", "encoding_names", "obfuscation_patterns"} for t in trigger_names)
+            and entropy > 3.9
+        ):
+            return True
 
     # Structural anomalies (like high symbol density)
     if "structural_anomalies" in trigger_names:
@@ -177,11 +170,8 @@ def expert_payload_obfuscation(text, triggers, all_triggers):
             return True
 
     # Multi-encoding attempt
-    encoding_count = sum(1 for t in {"cipher", "steganography", "encoding_names"} if t in trigger_names)
-    if encoding_count >= 2:
-        return True
-
-    return False
+    encoding_count = sum(1 for t in ("cipher", "steganography", "encoding_names") if t in trigger_names)
+    return encoding_count >= 2
 
 
 def expert_data_security(text, triggers, all_triggers):
@@ -202,11 +192,7 @@ def expert_data_security(text, triggers, all_triggers):
     if len(secret_hits) >= 2:
         return True
 
-    if any(t in trigger_names for t in secrets):
-        if "credential_access" in trigger_names:
-            return True
-
-    return False
+    return bool(any(t in trigger_names for t in secrets) and "credential_access" in trigger_names)
 
 
 def expert_structural_analysis(text, triggers, all_triggers):

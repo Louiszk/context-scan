@@ -2,6 +2,9 @@
 line-length = 120
 exclude = ["data/public_patterns"]
 
+[tool.ruff.lint]
+ignore = ["BLE001"]
+
 [tool.pyright]
 typeCheckingMode = "standard"
 venvPath = "."

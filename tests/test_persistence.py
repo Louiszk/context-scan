@@ -1,6 +1,8 @@
-import unittest
-import dill as pickle
 import os
+import unittest
+
+import dill as pickle
+
 from core.genome import GenomeNode
 from core.radar import SemanticRadar
 

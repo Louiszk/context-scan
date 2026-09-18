@@ -1,6 +1,6 @@
-from pydantic import BaseModel
 from pathlib import Path
-from typing import Tuple
+
+from pydantic import BaseModel
 
 
 class Settings(BaseModel):
@@ -18,7 +18,7 @@ class Settings(BaseModel):
     default_iterations: int = 3
     default_samples_per_iteration: int = 50
     default_beam_width: int = 4
-    data_splits: Tuple[float, float, float] = (0.7, 0.15, 0.15)  # Train, Val, Test
+    data_splits: tuple[float, float, float] = (0.7, 0.15, 0.15)  # Train, Val, Test
 
     # --- System Paths (Resolved relative to project root) ---
     root_path: Path = Path(__file__).parent.parent.resolve()

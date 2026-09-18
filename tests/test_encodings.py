@@ -1,22 +1,23 @@
 import unittest
+
 from utils.encodings import (
-    encode_base64,
-    encode_base32,
-    encode_ascii85,
-    encode_base62,
-    encode_base58,
-    encode_base45,
-    encode_hex,
-    encode_rot13,
-    encode_reverse,
-    encode_url,
-    encode_string,
-    apply_leet_regex,
-    apply_greek_regex,
-    apply_qwerty_regex,
     apply_doubled_regex,
+    apply_greek_regex,
+    apply_leet_regex,
+    apply_qwerty_regex,
     apply_spaced_regex,
     apply_ticks_regex,
+    encode_ascii85,
+    encode_base32,
+    encode_base45,
+    encode_base58,
+    encode_base62,
+    encode_base64,
+    encode_hex,
+    encode_reverse,
+    encode_rot13,
+    encode_string,
+    encode_url,
 )
 
 

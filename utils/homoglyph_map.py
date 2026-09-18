@@ -1,9 +1,10 @@
-import requests
 import json
 from pathlib import Path
 
+import requests
+
 URL = "https://www.unicode.org/Public/security/9.0.0/confusables.txt"
-OUTPUT_FILE = Path("homoglyph_map.json")
+OUTPUT_FILE = Path(__file__).resolve().parent / "homoglyph_map.json"
 
 
 def generate_homoglyph_map():

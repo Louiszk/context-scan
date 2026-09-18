@@ -1,5 +1,6 @@
 import unittest
 from pathlib import Path
+
 from core.genome import GenomeNode
 
 

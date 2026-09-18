@@ -1,6 +1,7 @@
 import json
-from datasets import load_dataset
 from pathlib import Path
+
+from datasets import load_dataset
 
 
 def load_injection_datasets():
@@ -13,7 +14,7 @@ def load_injection_datasets():
         print(f"Loading dataset '{repo}'...")
         try:
             dataset = load_dataset(repo)
-            for split in dataset.keys():
+            for split in dataset:
                 for entry in dataset[split]:
                     if not isinstance(entry, dict):
                         continue

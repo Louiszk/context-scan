@@ -1,6 +1,6 @@
 import base64
-import urllib.parse
 import codecs
+import urllib.parse
 
 # Alphabets for custom encodings
 BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
@@ -407,9 +407,8 @@ def apply_spaced_regex(pattern: str) -> str:
         c = pattern[i]
         if c == "\\" and i + 1 < len(pattern):
             modified.append(pattern[i : i + 2])
-            if i + 2 < len(pattern):
-                if pattern[i + 2] not in ")]|?*+":
-                    modified.append(delimiter)
+            if i + 2 < len(pattern) and pattern[i + 2] not in ")]|?*+":
+                modified.append(delimiter)
             i += 2
             continue
 
@@ -417,8 +416,7 @@ def apply_spaced_regex(pattern: str) -> str:
             modified.append(c)
         else:
             modified.append(c)
-            if i < len(pattern) - 1:
-                if pattern[i + 1] not in ")]|?*+":
-                    modified.append(delimiter)
+            if i < len(pattern) - 1 and pattern[i + 1] not in ")]|?*+":
+                modified.append(delimiter)
         i += 1
     return "".join(modified)

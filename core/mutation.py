@@ -1,14 +1,15 @@
 import os
+
 from openai import OpenAI
-from typing import Optional
+
 from core.config import settings
 from core.genome import GenomeNode
-from utils.markdown_parser import parse_llm_code_blocks
 from data.raw_filters import FILTER_DESCRIPTIONS
+from utils.markdown_parser import parse_llm_code_blocks
 
 
 class LLMMutator:
-    def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None):
+    def __init__(self, api_key: str | None = None, model: str | None = None):
         """
         Initializes the OpenAI client.
         If api_key is not provided, it attempts to load from the OPENAI_API_KEY env variable.
@@ -35,8 +36,8 @@ class LLMMutator:
         self,
         context_str: str,
         target_traces: list[dict],
-        compilation_error: Optional[dict] = None,
-        directive: Optional[str] = None,
+        compilation_error: dict | None = None,
+        directive: str | None = None,
     ) -> tuple[str, str]:
         system_prompt = (
             "You are an expert cybersecurity AI architect optimizing a Python-based prompt injection firewall. "
@@ -69,7 +70,8 @@ class LLMMutator:
         failures_desc = []
         for i, trace in enumerate(target_traces[: settings.max_failures_in_prompt]):
             func_name = trace.get("function", "UNKNOWN")
-            trigger = trace.get("trigger", "UNKNOWN")
+            raw_trigger = trace.get("trigger", "UNKNOWN")
+            trigger = raw_trigger.get("category", raw_trigger) if isinstance(raw_trigger, dict) else raw_trigger
             text_slice = trace.get("text_slice", "")
 
             if trace.get("type") == "runtime_error":
@@ -123,9 +125,9 @@ class LLMMutator:
         genome: GenomeNode,
         target_traces: list[dict],
         new_node_id: str,
-        compilation_error: Optional[dict] = None,
-        directive: Optional[str] = None,
-    ) -> Optional[GenomeNode]:
+        compilation_error: dict | None = None,
+        directive: str | None = None,
+    ) -> GenomeNode | None:
         """
         Takes a list of failing traces, queries OpenAI to patch the failures, and returns
         a new child GenomeNode containing the diffs.
